@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов» [![Build status][travis-image]][travis-url]
 
 * Студент: [Роман Евгеньевич](https://up.htmlacademy.ru/react/6/user/1418299).
-* Наставник: `Неизвестно`.
+* Наставник: [Богдан Волик](https://up.htmlacademy.ru/react/6/user/997699).
 
 ---
 
