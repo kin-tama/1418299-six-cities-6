@@ -9,29 +9,30 @@ import SignIn from "./sign-in/sign-in";
 import NotFound from "./not-found/not-found";
 
 const App = (props) => {
-  const {cardsNumber} = props;
+  const {mockOffers, mockComments} = props;
+
   return (
 
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage cardsNumber={cardsNumber} />);
+          <MainPage mockOffers={mockOffers} />
         </Route>
 
         <Route exact path="/login">
-          <SignIn />);
+          <SignIn />
         </Route>
 
         <Route exact path="/favorites">
-          <Favorites />);
+          <Favorites mockOffers={mockOffers} />
         </Route>
 
         <Route exact path="/offer/:id">
-          <Room />);
+          <Room mockComments={mockComments}/>
         </Route>
 
         <Route path="">
-          <NotFound />);
+          <NotFound />
         </Route>
 
       </Switch>
@@ -42,7 +43,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  cardsNumber: PropTypes.array.isRequired
+  mockOffers: PropTypes.array.isRequired,
+  mockComments: PropTypes.array.isRequired
 };
 
 export default App;

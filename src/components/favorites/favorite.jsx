@@ -4,36 +4,28 @@ import {Link} from "react-router-dom";
 
 import Check from "../prop-types/prop-types";
 
-const SingleCard = (props) => {
-  const {mockOffer, setPref} = props;
+const Favorite = (props) => {
+  const {mockOffer} = props;
   const rating = `${Math.round(mockOffer.rating / 5 * 100)}%`;
-  let premium;
-
-  if (mockOffer.isPremium) {
-    premium = <div className="place-card__mark"> <span>Premium</span> </div>;
-  }
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={()=>{
-      setPref(mockOffer.id);
-    }}>
-      {premium}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="favorites__card place-card">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to="/offer/:id">
-          <img className="place-card__image" src={mockOffer.previewImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={mockOffer.previewImage} width="150" height="110" alt="Place image"/>
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{mockOffer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -43,7 +35,7 @@ const SingleCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/offer/:id">{mockOffer.title}</Link>
+          <a href="#">{mockOffer.title}</a>
         </h2>
         <p className="place-card__type">{mockOffer.type}</p>
       </div>
@@ -51,9 +43,8 @@ const SingleCard = (props) => {
   );
 };
 
-SingleCard.propTypes = {
-  mockOffer: PropTypes.shape(Check).isRequired,
-  setPref: PropTypes.func.isRequired
+Favorite.propTypes = {
+  mockOffer: PropTypes.shape(Check).isRequired
 };
 
-export default SingleCard;
+export default Favorite;

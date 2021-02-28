@@ -1,9 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SingleCard from './single-card';
+import React from "react";
+import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+
+import OffersList from "./offers-list";
+import Check from "../prop-types/prop-types";
 
 const MainPage = (props) => {
-  const {cardsNumber} = props;
+  const {mockOffers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -11,18 +14,18 @@ const MainPage = (props) => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <Link className="header__logo-link header__logo-link--active" to="/">
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to="/favorites">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -81,16 +84,15 @@ const MainPage = (props) => {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                {/* <ul className="places__options places__options--custom places__options--opened"> */}
+                <ul className="places__options places__options--custom">
                   <li className="places__option places__option--active" tabIndex="0">Popular</li>
                   <li className="places__option" tabIndex="0">Price: low to high</li>
                   <li className="places__option" tabIndex="0">Price: high to low</li>
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-
-              {cardsNumber.map((time) => <SingleCard key={time}></SingleCard>)}
-
+              <OffersList mockOffers={mockOffers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -103,7 +105,7 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
-  cardsNumber: PropTypes.array.isRequired
+  mockOffers: PropTypes.arrayOf(PropTypes.shape(Check)).isRequired
 };
 
 export default MainPage;
