@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {rating} from "../utils/util";
 
 
 const Review = (props) => {
   const {mockComment} = props;
-  const rating = `${Math.round(mockComment.rating / 5 * 100)}%`;
 
   return (
     <li className="reviews__item">
@@ -19,7 +19,7 @@ const Review = (props) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: rating}}></span>
+            <span style={{width: rating(mockComment)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

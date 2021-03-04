@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export default {
+export const offersPropTypes = {
   "bedrooms": PropTypes.number,
   "city": PropTypes.shape({
     "location": PropTypes.shape({
@@ -33,4 +33,17 @@ export default {
   "rating": PropTypes.number.isRequired,
   "title": PropTypes.string.isRequired,
   "type": PropTypes.string.isRequired
+};
+
+export const commentsPropTypes = {
+  comment: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    avatarUrl: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    isPro: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired
+  })
 };

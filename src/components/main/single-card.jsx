@@ -1,17 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-
-import Check from "../prop-types/prop-types";
+import {rating} from "../utils/util";
+import {offersPropTypes} from "../prop-types/prop-types";
 
 const SingleCard = (props) => {
   const {mockOffer, setPref} = props;
-  const rating = `${Math.round(mockOffer.rating / 5 * 100)}%`;
-  let premium;
-
-  if (mockOffer.isPremium) {
-    premium = <div className="place-card__mark"> <span>Premium</span> </div>;
-  }
+  const premium = mockOffer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
 
   return (
     <article className="cities__place-card place-card" onMouseEnter={()=>{
@@ -38,7 +33,7 @@ const SingleCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: rating}}></span>
+            <span style={{width: rating(mockOffer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -52,7 +47,7 @@ const SingleCard = (props) => {
 };
 
 SingleCard.propTypes = {
-  mockOffer: PropTypes.shape(Check).isRequired,
+  mockOffer: PropTypes.shape(offersPropTypes).isRequired,
   setPref: PropTypes.func.isRequired
 };
 

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
 import Favorite from "./favorite";
-import Check from "../prop-types/prop-types";
+import {offersPropTypes} from "../prop-types/prop-types";
 
 const Favorites = (props) => {
-  const {mockOffers} = props;
+  const {offers} = props;
   return (
     <div className="page">
       <header className="header">
@@ -46,7 +46,7 @@ const Favorites = (props) => {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {mockOffers.map((mockOffer) => <Favorite mockOffer={mockOffer} key={mockOffer.id}></Favorite>)}
+                  {offers.map((mockOffer) => <Favorite mockOffer={mockOffer} key={mockOffer.id}></Favorite>)}
                 </div>
               </li>
             </ul>
@@ -63,7 +63,7 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  mockOffers: PropTypes.arrayOf(PropTypes.shape(Check)).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
 };
 
 export default Favorites;
