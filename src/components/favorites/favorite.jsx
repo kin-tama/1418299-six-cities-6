@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-import Check from "../prop-types/prop-types";
+import {offersPropTypes} from "../prop-types/prop-types";
+import {rating} from "../utils/util.js";
 
 const Favorite = (props) => {
   const {mockOffer} = props;
-  const rating = `${Math.round(mockOffer.rating / 5 * 100)}%`;
 
   return (
     <article className="favorites__card place-card">
@@ -30,7 +30,7 @@ const Favorite = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: rating}}></span>
+            <span style={{width: rating(mockOffer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -44,7 +44,7 @@ const Favorite = (props) => {
 };
 
 Favorite.propTypes = {
-  mockOffer: PropTypes.shape(Check).isRequired
+  mockOffer: PropTypes.shape(offersPropTypes).isRequired
 };
 
 export default Favorite;

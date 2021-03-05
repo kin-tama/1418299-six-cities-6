@@ -5,10 +5,12 @@ import PropTypes from "prop-types";
 
 import Review from "./review";
 import ReviewForm from "./reviews-form";
+import {commentsPropTypes} from "../prop-types/prop-types";
 
 const Room = (props) => {
-  const {mockComments} = props;
-  const [comments, addComment] = useState(mockComments);
+  const {comments, newComment} = props;
+  const [commentaries, addComment] = useState(comments);
+
   return (
     <div className="page">
       <header className="header">
@@ -153,9 +155,9 @@ const Room = (props) => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
                 <ul className="reviews__list">
-                  {mockComments.map((mockComment) => <Review mockComment={mockComment} key={mockComment.id}></Review>)}
+                  {comments.map((mockComment) => <Review mockComment={mockComment} key={mockComment.id}></Review>)}
                 </ul>
-                <ReviewForm addComment={addComment} comments={comments}> </ReviewForm>
+                <ReviewForm addComment={addComment} commentaries={commentaries} newComment = {newComment}> </ReviewForm>
               </section>
             </div>
           </div>
@@ -269,7 +271,9 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
-  mockComments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  newComment: PropTypes.shape(commentsPropTypes).isRequired,
+
 };
 
 export default Room;

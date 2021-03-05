@@ -1,29 +1,14 @@
 import React from "react";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import {commentsPropTypes} from "../prop-types/prop-types";
+
 
 const ReviewForm = (props) => {
-  const {comments, addComment} = props;
-  const newComment = {
-    comment: ``,
-    date: dayjs().toDate(),
-    id: 55,
-    rating: 0,
-    user: {
-      avatarUrl: `img/avatar-galina.jpg`,
-      id: 4,
-      isPro: false,
-      name: `Myx`
-    }
-  };
+  const {commentaries, addComment, newComment} = props;
 
   const submitHandle = (evt) => {
     evt.preventDefault();
-    addComment(comments.push(newComment));
-    document.querySelector(`.reviews__textarea`).value = ``;
-    document.querySelectorAll(`.form__rating-input`).forEach((node) => {
-      node.checked = false;
-    });
+    addComment(commentaries.push(newComment));
   };
 
   return (
@@ -88,9 +73,13 @@ const ReviewForm = (props) => {
   );
 };
 
+// У меня происходит тут странная штука: при добавлении нового комментария (когда отрабатывает функция addComment),
+// проп commentaries принимает значение "5", после чего в этом компоненте срабатывает предупреждение "Failed prop type". Хз что с этим делать.
+
 ReviewForm.propTypes = {
-  comments: PropTypes.array.isRequired,
-  addComment: PropTypes.func.isRequired
+  commentaries: PropTypes.arrayOf(PropTypes.shape(commentsPropTypes)).isRequired,
+  addComment: PropTypes.func.isRequired,
+  newComment: PropTypes.shape(commentsPropTypes).isRequired,
 };
 
 export default ReviewForm;

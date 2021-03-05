@@ -7,16 +7,17 @@ import Favorites from "./favorites/favorites";
 import Room from "./room/room";
 import SignIn from "./sign-in/sign-in";
 import NotFound from "./not-found/not-found";
+import {offersPropTypes, commentsPropTypes} from "./prop-types/prop-types";
 
 const App = (props) => {
-  const {mockOffers, mockComments} = props;
+  const {offers, comments, cities, newComment} = props;
 
   return (
 
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage mockOffers={mockOffers} />
+          <MainPage offers={offers} cities={cities}/>
         </Route>
 
         <Route exact path="/login">
@@ -24,11 +25,11 @@ const App = (props) => {
         </Route>
 
         <Route exact path="/favorites">
-          <Favorites mockOffers={mockOffers} />
+          <Favorites offers={offers} />
         </Route>
 
         <Route exact path="/offer/:id">
-          <Room mockComments={mockComments}/>
+          <Room comments={comments} newComment={newComment}/>
         </Route>
 
         <Route path="">
@@ -43,8 +44,10 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  mockOffers: PropTypes.array.isRequired,
-  mockComments: PropTypes.array.isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape(commentsPropTypes)).isRequired,
+  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  newComment: PropTypes.shape(commentsPropTypes)
 };
 
 export default App;

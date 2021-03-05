@@ -3,8 +3,8 @@ export default [
     bedrooms: 1,
     city: {
       location: {
-        latitude: 58.010450,
-        longitude: 56.229434,
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 12
       },
       name: `Amsterdam`
@@ -22,8 +22,8 @@ export default [
     isFavorite: false,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 8
     },
     maxAdults: 4,
@@ -38,8 +38,8 @@ export default [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 59.565151,
-        longitude: 150.808586,
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10
       },
       name: `Amsterdam`
@@ -57,8 +57,8 @@ export default [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: 59.565151,
-      longitude: 150.808586,
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
       zoom: 8
     },
     maxAdults: 66,
@@ -73,8 +73,8 @@ export default [
     bedrooms: 66,
     city: {
       location: {
-        latitude: 64.955532,
-        longitude: 34.598371,
+        latitude: 52.38333,
+        longitude: 4.9,
         zoom: 10
       },
       name: `Amsterdam`
@@ -92,8 +92,8 @@ export default [
     isFavorite: false,
     isPremium: false,
     location: {
-      latitude: 64.955532,
-      longitude: 34.598371,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8
     },
     maxAdults: 666,
@@ -108,8 +108,8 @@ export default [
     bedrooms: 666,
     city: {
       location: {
-        latitude: 62.027216,
-        longitude: 129.732178,
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
         zoom: 10
       },
       name: `Amsterdam`
@@ -127,8 +127,8 @@ export default [
     isFavorite: false,
     isPremium: false,
     location: {
-      latitude: 62.027216,
-      longitude: 129.732178,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8
     },
     maxAdults: 666,

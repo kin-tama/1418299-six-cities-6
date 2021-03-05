@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import OffersList from "./offers-list";
-import Check from "../prop-types/prop-types";
+import {offersPropTypes} from "../prop-types/prop-types";
+import Map from "../map/map";
 
 const MainPage = (props) => {
-  const {mockOffers} = props;
-
+  const {offers, cities} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -92,10 +92,12 @@ const MainPage = (props) => {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <OffersList mockOffers={mockOffers}/>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map cities={cities} offers={offers}></Map>
+              </section>
             </div>
           </div>
         </div>
@@ -105,7 +107,8 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
-  mockOffers: PropTypes.arrayOf(PropTypes.shape(Check)).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  cities: PropTypes.objectOf(PropTypes.array).isRequired
 };
 
 export default MainPage;
