@@ -2,12 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-import OffersList from "./offers-list";
+import OffersList from "../favorites/offersList/offers-list";
 import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
 
 const MainPage = (props) => {
   const {offers, cities} = props;
+
+  const renderType = `MAIN`;
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -92,11 +95,11 @@ const MainPage = (props) => {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} renderType={renderType}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map cities={cities} offers={offers}></Map>
+                <Map cities={cities} offers={offers} renderType={renderType}></Map>
               </section>
             </div>
           </div>

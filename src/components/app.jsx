@@ -29,7 +29,7 @@ const App = (props) => {
         </Route>
 
         <Route exact path="/offer/:id">
-          <Room comments={comments} newComment={newComment}/>
+          <Room comments={comments} newComment={newComment} cities={cities} offers={offers}/>
         </Route>
 
         <Route path="">
