@@ -5,10 +5,24 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {cities, offers} = props;
+  const {cities, offers, renderType} = props;
   const city = cities.Amsterdam;
   const refMap = useRef();
   const customZoom = 11;
+
+  const SIZES = {
+    ROOM: {
+      height: `579px`,
+      width: `1144px`,
+      marginLeft: `auto`,
+      marginRight: `auto`
+    },
+
+    MAIN: {
+      height: `700px`,
+      width: `512px`
+    }
+  };
 
   useEffect(() => {
     refMap.current = leaflet.map(`map`, {
@@ -47,14 +61,15 @@ const Map = (props) => {
   });
 
   return (
-    <div id="map" style={{height: `700px`}} ref={refMap}></div>
+    <div id="map" style={SIZES[renderType]} ref={refMap}></div>
   );
 
 };
 
 Map.propTypes = {
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  renderType: PropTypes.string.isRequired
 };
 
 export default Map;
