@@ -1,12 +1,14 @@
 import React, {useEffect, useRef} from "react";
+import {connect} from 'react-redux';
+
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
 import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {cities, offers, renderType} = props;
-  const city = cities.Amsterdam;
+  const {cities, offers, renderType, activeCity} = props;
+  const city = cities[activeCity];
   const refMap = useRef();
   const customZoom = 11;
 
@@ -24,7 +26,13 @@ const Map = (props) => {
     }
   };
 
+
   useEffect(() => {
+
+    if (!refMap.current.id) {
+      refMap.current.remove();
+    }
+
     refMap.current = leaflet.map(`map`, {
       center: city,
       zoom: customZoom,
@@ -69,7 +77,13 @@ const Map = (props) => {
 Map.propTypes = {
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
-  renderType: PropTypes.string.isRequired
+  renderType: PropTypes.string.isRequired,
+  activeCity: PropTypes.string.isRequired
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  activeCity: state.activeCity
+});
+
+export default connect(mapStateToProps, null)(Map);
+

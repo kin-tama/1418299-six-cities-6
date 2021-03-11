@@ -37,7 +37,6 @@ const App = (props) => {
         </Route>
 
       </Switch>
-
     </BrowserRouter>
   );
 
