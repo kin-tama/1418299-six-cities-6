@@ -7,7 +7,7 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {cities, offers, renderType, activeCity} = props;
+  const {cities, offers, renderType, activeCity, activePin} = props;
   const city = cities[activeCity];
   const refMap = useRef();
   const customZoom = 11;
@@ -48,7 +48,7 @@ const Map = (props) => {
 
     offers.forEach((offer) => {
       const customIcon = leaflet.icon({
-        iconUrl: `img/pin.svg`,
+        iconUrl: offer.id === activePin ? `img/pin-active.svg` : `img/pin.svg`,
         iconSize: [30, 30]
       });
 
@@ -78,11 +78,13 @@ Map.propTypes = {
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   renderType: PropTypes.string.isRequired,
-  activeCity: PropTypes.string.isRequired
+  activeCity: PropTypes.string.isRequired,
+  activePin: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity
+  activeCity: state.activeCity,
+  activePin: state.activePin
 });
 
 export default connect(mapStateToProps, null)(Map);

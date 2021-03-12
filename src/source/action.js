@@ -11,6 +11,7 @@ export const ActionType = {
   CHANGE_CITY: `offers/changeCity`,
   CHANGE_SORT_STATUS: `offers/changeSortStatus`,
   CHANGE_SORT_TYPE: `offers/changeSortType`,
+  CHANGE_ACTIVE_PIN: `offers/changeActivePin`
 };
 
 export const ActionCreator = {
@@ -28,4 +29,8 @@ export const ActionCreator = {
     payload: newSortType
   }),
 
+  changeActivePin: (cardId) => ({
+    type: ActionType.CHANGE_ACTIVE_PIN,
+    payload: cardId
+  }),
 };

@@ -3,7 +3,8 @@ import {ActionType} from "./action";
 const initialState = {
   activeCity: `Paris`,
   activeSortType: `popular`,
-  activeSortChoose: false
+  activeSortChoose: false,
+  activePin: 1,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -25,6 +26,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeSortChoose: newStatus
+      };
+
+    case ActionType.CHANGE_ACTIVE_PIN:
+      return {
+        ...state,
+        activePin: action.payload
       };
 
     default:
