@@ -13,7 +13,7 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  cities: PropTypes.array.isRequired,
 };
 
 
