@@ -134,8 +134,111 @@ export default [
     maxAdults: 666,
     previewImage: `img/apartment-01.jpg`,
     price: 666,
-    rating: 6.6,
+    rating: 2.4,
     title: `A good place to get frozen`,
     type: `apartment`
+  },
+  {
+    bedrooms: 6969,
+    city: {
+      location: {
+        latitude: 48.86471,
+        longitude: 2.3,
+        zoom: 10
+      },
+      name: `Paris`
+    },
+    description: `It's a me, Paris!`,
+    goods: [`Cable TV`],
+    host: {
+      avatarUrl: ``,
+      id: 132547,
+      isPro: true,
+      name: `Diana`
+    },
+    id: Math.random() * 10,
+    images: [`img/bled-5.jpg`],
+    isFavorite: false,
+    isPremium: false,
+    location: {
+      latitude: 48.86471,
+      longitude: 2.3,
+      zoom: 8
+    },
+    maxAdults: 358,
+    previewImage: `img/bled-5.jpg`,
+    price: 6969,
+    rating: 1.5,
+    title: `Un bon endroit pour se déshabiller`,
+    type: `apartment`
+  },
+  {
+    bedrooms: 0.5,
+    city: {
+      location: {
+        latitude: 50.93517,
+        longitude: 6.9,
+        zoom: 10
+      },
+      name: `Cologne`
+    },
+    description: `It's a me, Cologne!`,
+    goods: [`Cable TV`],
+    host: {
+      avatarUrl: ``,
+      id: 1325478,
+      isPro: true,
+      name: `Diana`
+    },
+    id: Math.random() * 11,
+    images: [`img/bled-1.jpg`],
+    isFavorite: false,
+    isPremium: false,
+    location: {
+      latitude: 50.93517,
+      longitude: 6.9,
+      zoom: 8
+    },
+    maxAdults: 358,
+    previewImage: `img/bled-1.jpg`,
+    price: 0.7,
+    rating: 4.4,
+    title: `A good place to drink Eau de Cologne`,
+    type: `apartment`
+  },
+  {
+    bedrooms: 220,
+    city: {
+      location: {
+        latitude: 50.8505,
+        longitude: 4.3,
+        zoom: 10
+      },
+      name: `Brussels`
+    },
+    description: `It's a me, Brussels!`,
+    goods: [`Cable TV`],
+    host: {
+      avatarUrl: ``,
+      id: 13254785,
+      isPro: true,
+      name: `Diana`
+    },
+    id: Math.random() * 12,
+    images: [`img/bled-2.jpg`],
+    isFavorite: false,
+    isPremium: false,
+    location: {
+      latitude: 50.8505,
+      longitude: 4.3,
+      zoom: 8
+    },
+    maxAdults: 358,
+    previewImage: `img/bled-2.jpg`,
+    price: 700,
+    rating: 3,
+    title: `A good place to eat Brussels sprouts`,
+    type: `apartment`
   }
+
 ];
