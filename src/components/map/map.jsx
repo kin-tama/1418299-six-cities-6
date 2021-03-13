@@ -79,7 +79,7 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   renderType: PropTypes.string.isRequired,
   activeCity: PropTypes.string.isRequired,
-  activePin: PropTypes.string.isRequired
+  activePin: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({

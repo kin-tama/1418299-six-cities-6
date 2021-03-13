@@ -1,5 +1,5 @@
 import React from "react";
-import SingleCity from "./singleCity";
+import SingleCity from "./single-city";
 import PropTypes from "prop-types";
 
 const CitiesList = (props) => {

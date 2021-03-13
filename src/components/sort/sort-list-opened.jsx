@@ -1,5 +1,5 @@
 import React from "react";
-import SortListItem from "./sortListItem";
+import SortListItem from "./sort-list-item";
 import PropTypes from "prop-types";
 
 const SortListOpened = (props) => {

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {ActionCreator} from "../../source/action";
 import {connect} from "react-redux";
-import SortListOpened from "./sortListOpened";
+import SortListOpened from "./sort-list-opened";
 
 const SortOptions = (props) => {
   const {activeSortType, activeSortChoose, changeSortStatus, sortTypes} = props;

@@ -17,7 +17,7 @@ const SingleCard = (props) => {
         changeActivePin(mockOffer.id);
       }}
       onMouseLeave={()=>{
-        changeActivePin(``);
+        changeActivePin(0);
       }}>
       {premium}
       <div className="cities__image-wrapper place-card__image-wrapper">

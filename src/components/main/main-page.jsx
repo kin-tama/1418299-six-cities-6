@@ -7,8 +7,8 @@ import {sortAllOffers} from "../utils/util";
 import OffersList from "../favorites/offersList/offers-list";
 import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
-import CitiesList from "../citiesList/citiesList";
-import SortOptions from "../sort/sortOptions";
+import CitiesList from "../cities-list/cities-list";
+import SortOptions from "../sort/sort-options";
 
 
 const MainPage = (props) => {
