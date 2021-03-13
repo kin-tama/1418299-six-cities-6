@@ -12,7 +12,7 @@ import SortOptions from "../sort/sort-options";
 
 
 const MainPage = (props) => {
-  const {offers, cities, activeCity, sortTypes, activeSortType} = props;
+  const {offers, cities, activeCity, sortTypes, activeSortType, activePin} = props;
   const renderType = `MAIN`;
   const unsortedOffers = offers.slice();
   const sortedOffers = sortAllOffers(unsortedOffers, offers, activeSortType);
@@ -22,6 +22,14 @@ const MainPage = (props) => {
       offer.city.name === activeCity
     );
   });
+
+  const getActivePinData = (pin) => {
+    if (pin > 0) {
+      return offers.find((offer) => offer.id === pin).location;
+    }
+
+    return {};
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -67,7 +75,7 @@ const MainPage = (props) => {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map cities={cities} offers={filteredOffers} renderType={renderType}></Map>
+                <Map cities={cities} offers={filteredOffers} renderType={renderType} activePinData={getActivePinData(activePin)}></Map>
               </section>
             </div>
           </div>
@@ -82,12 +90,14 @@ MainPage.propTypes = {
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   activeCity: PropTypes.string.isRequired,
   activeSortType: PropTypes.string.isRequired,
-  sortTypes: PropTypes.object.isRequired
+  sortTypes: PropTypes.object.isRequired,
+  activePin: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   activeSortType: state.activeSortType,
+  activePin: state.activePin,
 });
 
 export default connect(mapStateToProps, null)(MainPage);

@@ -7,7 +7,7 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {cities, offers, renderType, activeCity, activePin} = props;
+  const {cities, offers, renderType, activeCity, activePinData} = props;
   const city = cities[activeCity];
   const refMap = useRef();
   const customZoom = 11;
@@ -48,7 +48,7 @@ const Map = (props) => {
 
     offers.forEach((offer) => {
       const customIcon = leaflet.icon({
-        iconUrl: offer.id === activePin ? `img/pin-active.svg` : `img/pin.svg`,
+        iconUrl: `img/pin.svg`,
         iconSize: [30, 30]
       });
 
@@ -66,6 +66,20 @@ const Map = (props) => {
     }, []);
 
     refMap.current.setView(city, customZoom);
+
+
+    if (activePinData.latitude) {
+      leaflet.marker({
+        lat: activePinData.latitude,
+        lng: activePinData.longitude
+      },
+      {
+        icon: leaflet.icon({
+          iconUrl: `img/pin-active.svg`,
+          iconSize: [30, 30]
+        })
+      }).addTo(refMap.current).bindPopup(offers[0].title);
+    }
   });
 
   return (
@@ -79,12 +93,11 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   renderType: PropTypes.string.isRequired,
   activeCity: PropTypes.string.isRequired,
-  activePin: PropTypes.number.isRequired
+  activePinData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
-  activePin: state.activePin
 });
 
 export default connect(mapStateToProps, null)(Map);
