@@ -1,5 +1,5 @@
 import React from "react";
-import SingleCity from "./singleCity";
+import SingleCity from "./single-city";
 import PropTypes from "prop-types";
 
 const CitiesList = (props) => {
@@ -13,7 +13,7 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  cities: PropTypes.array.isRequired,
 };
 
 

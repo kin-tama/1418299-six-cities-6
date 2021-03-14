@@ -1,17 +1,24 @@
 import React from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {rating} from "../utils/util";
 import {offersPropTypes} from "../prop-types/prop-types";
+import {ActionCreator} from "../../source/action";
+
 
 const SingleCard = (props) => {
-  const {mockOffer, setPref} = props;
+  const {mockOffer, changeActivePin} = props;
   const premium = mockOffer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={()=>{
-      setPref(mockOffer.id);
-    }}>
+    <article className="cities__place-card place-card"
+      onMouseEnter={()=>{
+        changeActivePin(mockOffer.id);
+      }}
+      onMouseLeave={()=>{
+        changeActivePin(0);
+      }}>
       {premium}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to="/offer/:id">
@@ -48,7 +55,15 @@ const SingleCard = (props) => {
 
 SingleCard.propTypes = {
   mockOffer: PropTypes.shape(offersPropTypes).isRequired,
-  setPref: PropTypes.func.isRequired
+  setPref: PropTypes.func.isRequired,
+  changeActivePin: PropTypes.func.isRequired
 };
 
-export default SingleCard;
+
+const mapDispatchToProps = (dispatch) => ({
+  changeActivePin(id) {
+    dispatch(ActionCreator.changeActivePin(id));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(SingleCard);

@@ -7,7 +7,8 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import App from "./components/app";
 import Offers from "./mock/offers";
 import Comments from "./mock/commentGet";
-import Cities from "./mock/city";
+import {CITIES} from "./mock/const";
+import {SORT_TYPES} from "./mock/const";
 import NewComment from "./mock/newComment";
 import {reducer} from "./source/reducer";
 
@@ -19,8 +20,7 @@ const store = createStore(
 ReactDOM.render(
 
     <Provider store={store}>
-      <App offers={Offers} comments={Comments} cities={Cities} newComment={NewComment}/>
+      <App offers={Offers} comments={Comments} cities={CITIES} newComment={NewComment} sortTypes={SORT_TYPES}/>
     </Provider>,
     document.querySelector(`#root`)
 );
-

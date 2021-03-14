@@ -3,20 +3,33 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 
+import {sortAllOffers} from "../utils/util";
 import OffersList from "../favorites/offersList/offers-list";
 import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
-import CitiesList from "../citiesList/citiesList";
+import CitiesList from "../cities-list/cities-list";
+import SortOptions from "../sort/sort-options";
+
 
 const MainPage = (props) => {
-  const {offers, cities, activeCity} = props;
+  const {offers, cities, activeCity, sortTypes, activeSortType, activePin} = props;
   const renderType = `MAIN`;
+  const unsortedOffers = offers.slice();
+  const sortedOffers = sortAllOffers(unsortedOffers, offers, activeSortType);
 
-  const filteredOffers = offers.filter((offer) => {
+  const filteredOffers = sortedOffers.filter((offer) => {
     return (
       offer.city.name === activeCity
     );
   });
+
+  const getActivePinData = (pin) => {
+    if (pin > 0) {
+      return offers.find((offer) => offer.id === pin).location;
+    }
+
+    return {};
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -55,27 +68,14 @@ const MainPage = (props) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{filteredOffers.length} {filteredOffers.length === 1 ? `place` : `places`} to stay in {activeCity}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex="0">
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                {/* <ul className="places__options places__options--custom places__options--opened"> */}
-                <ul className="places__options places__options--custom">
-                  <li className="places__option places__option--active" tabIndex="0">Popular</li>
-                  <li className="places__option" tabIndex="0">Price: low to high</li>
-                  <li className="places__option" tabIndex="0">Price: high to low</li>
-                  <li className="places__option" tabIndex="0">Top rated first</li>
-                </ul>
-              </form>
+
+              <SortOptions sortTypes={sortTypes}></SortOptions>
+
               <OffersList offers={filteredOffers} renderType={renderType}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map cities={cities} offers={filteredOffers} renderType={renderType}></Map>
+                <Map cities={cities} offers={filteredOffers} renderType={renderType} activePinData={getActivePinData(activePin)}></Map>
               </section>
             </div>
           </div>
@@ -88,11 +88,16 @@ const MainPage = (props) => {
 MainPage.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
-  activeCity: PropTypes.string.isRequired
+  activeCity: PropTypes.string.isRequired,
+  activeSortType: PropTypes.string.isRequired,
+  sortTypes: PropTypes.object.isRequired,
+  activePin: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity
+  activeCity: state.activeCity,
+  activeSortType: state.activeSortType,
+  activePin: state.activePin,
 });
 
 export default connect(mapStateToProps, null)(MainPage);

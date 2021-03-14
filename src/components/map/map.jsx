@@ -7,7 +7,7 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {cities, offers, renderType, activeCity} = props;
+  const {cities, offers, renderType, activeCity, activePinData} = props;
   const city = cities[activeCity];
   const refMap = useRef();
   const customZoom = 11;
@@ -66,6 +66,20 @@ const Map = (props) => {
     }, []);
 
     refMap.current.setView(city, customZoom);
+
+
+    if (activePinData.latitude) {
+      leaflet.marker({
+        lat: activePinData.latitude,
+        lng: activePinData.longitude
+      },
+      {
+        icon: leaflet.icon({
+          iconUrl: `img/pin-active.svg`,
+          iconSize: [30, 30]
+        })
+      }).addTo(refMap.current).bindPopup(offers[0].title);
+    }
   });
 
   return (
@@ -78,11 +92,12 @@ Map.propTypes = {
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   renderType: PropTypes.string.isRequired,
-  activeCity: PropTypes.string.isRequired
+  activeCity: PropTypes.string.isRequired,
+  activePinData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity
+  activeCity: state.activeCity,
 });
 
 export default connect(mapStateToProps, null)(Map);
