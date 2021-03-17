@@ -1,17 +1,10 @@
-// const CHANGE_CITY = `CHANGE_CITY`;
-
-// export const changeCity = (apartments) => ({
-//   type: CHANGE_CITY,
-//   payload: apartments
-// })
-
-// в eventListener не указывай объект, а вызывай функцию
-
 export const ActionType = {
   CHANGE_CITY: `offers/changeCity`,
   CHANGE_SORT_STATUS: `offers/changeSortStatus`,
   CHANGE_SORT_TYPE: `offers/changeSortType`,
-  CHANGE_ACTIVE_PIN: `offers/changeActivePin`
+  CHANGE_ACTIVE_PIN: `offers/changeActivePin`,
+  LOAD_OFFERS: `data/loadOffers`,
+  LOAD_COMMENTS: `data/loadComments`,
 };
 
 export const ActionCreator = {
@@ -33,4 +26,14 @@ export const ActionCreator = {
     type: ActionType.CHANGE_ACTIVE_PIN,
     payload: cardId
   }),
+
+  loadOffers: (offers) => ({
+    type: ActionType.LOAD_OFFERS,
+    payload: offers
+  }),
+
+  getComments: (comments) => ({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments
+  })
 };

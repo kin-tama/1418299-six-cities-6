@@ -17,7 +17,7 @@ const OffersList = (props) => {
     <>
       {renderType === Object.keys(CLASSES)[1] && <h2 className="near-places__title">Other places in the neighbourhood</h2>}
       <div className={CLASSES[renderType]}>
-        {offers.map((mockOffer) => <SingleCard mockOffer={mockOffer} key={mockOffer.id} setPref={setPref} pref={pref}
+        {offers.map((offer) => <SingleCard offer={offer} key={offer.id} setPref={setPref} pref={pref}
         ></SingleCard>)}
       </div>
     </>

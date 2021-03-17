@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import {ActionCreator} from "../../source/action";
+import {ActionCreator} from "../../store/action";
 
 const SortListItem = (props) => {
   const {typeKey, activeSortType, sortTypes, changeSortType, changeSortStatus} = props;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
@@ -9,13 +9,26 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
 import CitiesList from "../cities-list/cities-list";
 import SortOptions from "../sort/sort-options";
-
+import LoadingScreen from "../loading/loading";
+import {fetchOffersList} from "../../store/api-action";
 
 const MainPage = (props) => {
-  const {offers, cities, activeCity, sortTypes, activeSortType, activePin} = props;
+  const {offers, cities, activeCity, sortTypes, activeSortType, activePin, isDataLoaded, onLoadOffers} = props;
   const renderType = `MAIN`;
   const unsortedOffers = offers.slice();
   const sortedOffers = sortAllOffers(unsortedOffers, offers, activeSortType);
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadOffers();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const filteredOffers = sortedOffers.filter((offer) => {
     return (
@@ -91,13 +104,23 @@ MainPage.propTypes = {
   activeCity: PropTypes.string.isRequired,
   activeSortType: PropTypes.string.isRequired,
   sortTypes: PropTypes.object.isRequired,
-  activePin: PropTypes.number.isRequired
+  activePin: PropTypes.number.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.activeCity,
   activeSortType: state.activeSortType,
   activePin: state.activePin,
+  isDataLoaded: state.isDataLoaded,
+  offers: state.offers
 });
 
-export default connect(mapStateToProps, null)(MainPage);
+const mapDispatchToProps = (dispatch) => ({
+  onLoadOffers() {
+    dispatch(fetchOffersList());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

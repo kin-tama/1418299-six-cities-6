@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
+import {connect} from 'react-redux';
 
 import Favorite from "./favorite";
 import {offersPropTypes} from "../prop-types/prop-types";
@@ -46,7 +47,7 @@ const Favorites = (props) => {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((mockOffer) => <Favorite mockOffer={mockOffer} key={mockOffer.id}></Favorite>)}
+                  {offers.map((offer) => <Favorite offer={offer} key={offer.id}></Favorite>)}
                 </div>
               </li>
             </ul>
@@ -66,4 +67,8 @@ Favorites.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  offers: state.offers
+});
+
+export default connect(mapStateToProps, null)(Favorites);
