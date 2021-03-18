@@ -8,6 +8,7 @@ import Room from "./room/room";
 import SignIn from "./sign-in/sign-in";
 import NotFound from "./not-found/not-found";
 import {commentsPropTypes} from "./prop-types/prop-types";
+import PrivateRoute from "./private-route/private-route";
 
 const App = (props) => {
   const {
@@ -29,13 +30,17 @@ const App = (props) => {
           <SignIn />
         </Route>
 
-        <Route exact path="/favorites">
-          <Favorites/>
-        </Route>
+        <PrivateRoute
+          exact path="/favorites"
+          render ={()=><Favorites/>}
+        >
+        </PrivateRoute>
 
-        <Route exact path="/offer/:id">
-          <Room comments={comments} newComment={newComment} cities={cities}/>
-        </Route>
+        <PrivateRoute
+          exact path="/offer/:id"
+          render ={()=><Room comments={comments} newComment={newComment} cities={cities}/>}
+        >
+        </PrivateRoute>
 
         <Route path="">
           <NotFound />

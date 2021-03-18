@@ -13,7 +13,18 @@ import LoadingScreen from "../loading/loading";
 import {fetchOffersList} from "../../store/api-action";
 
 const MainPage = (props) => {
-  const {offers, cities, activeCity, sortTypes, activeSortType, activePin, isDataLoaded, onLoadOffers} = props;
+  const {
+    offers,
+    cities,
+    activeCity,
+    sortTypes,
+    activeSortType,
+    activePin,
+    isDataLoaded,
+    onLoadOffers,
+    authorizationStatus,
+    authorizedEmail
+  } = props;
   const renderType = `MAIN`;
   const unsortedOffers = offers.slice();
   const sortedOffers = sortAllOffers(unsortedOffers, offers, activeSortType);
@@ -57,11 +68,17 @@ const MainPage = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+                  {!authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/login">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                    <span className="header__user-name user__name">Sign in</span>
+                  </Link>}
+
+                  {authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__user-name user__name">{authorizedEmail}</span>
+                  </Link>}
                 </li>
               </ul>
             </nav>
@@ -107,6 +124,8 @@ MainPage.propTypes = {
   activePin: PropTypes.number.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadOffers: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired,
+  authorizedEmail: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -114,7 +133,9 @@ const mapStateToProps = (state) => ({
   activeSortType: state.activeSortType,
   activePin: state.activePin,
   isDataLoaded: state.isDataLoaded,
-  offers: state.offers
+  offers: state.offers,
+  authorizationStatus: state.authorizationStatus,
+  authorizedEmail: state.authorizedEmail
 });
 
 const mapDispatchToProps = (dispatch) => ({

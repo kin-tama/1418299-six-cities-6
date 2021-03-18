@@ -5,6 +5,8 @@ export const ActionType = {
   CHANGE_ACTIVE_PIN: `offers/changeActivePin`,
   LOAD_OFFERS: `data/loadOffers`,
   LOAD_COMMENTS: `data/loadComments`,
+  CHECK_AUTHORIZATION: `data/authorize`,
+  GET_EMAIL: `data/getEmail`
 };
 
 export const ActionCreator = {
@@ -35,5 +37,15 @@ export const ActionCreator = {
   getComments: (comments) => ({
     type: ActionType.LOAD_COMMENTS,
     payload: comments
-  })
+  }),
+
+  checkAuthorization: (status) => ({
+    type: ActionType.CHECK_AUTHORIZATION,
+    payload: status
+  }),
+
+  getEmail: (email) => ({
+    type: ActionType.GET_EMAIL,
+    payload: email
+  }),
 };
