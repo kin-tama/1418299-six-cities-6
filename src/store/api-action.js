@@ -7,12 +7,11 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
-    .then(() => dispatch(ActionCreator.checkAuthorization(true)))
+    .then(({data}) => dispatch(ActionCreator.checkAuthorization(data.email)))
     .catch(() => {})
 );
 
 export const logIn = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
   .then(() => dispatch(ActionCreator.checkAuthorization(true)))
-  .then(() => dispatch(ActionCreator.getEmail(email)))
 );

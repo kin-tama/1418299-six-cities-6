@@ -25,7 +25,8 @@ export const reducer = (state = initialState, action) => {
     case ActionType.CHECK_AUTHORIZATION:
       return {
         ...state,
-        authorizationStatus: (action.payload)
+        authorizationStatus: (action.payload ? true : false),
+        authorizedEmail: action.payload
       };
 
     case ActionType.LOAD_OFFERS:
