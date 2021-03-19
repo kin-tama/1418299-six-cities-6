@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-
+import {connect} from 'react-redux';
 
 import Review from "./review";
 import ReviewForm from "./reviews-form";
@@ -190,4 +190,8 @@ Room.propTypes = {
 
 };
 
-export default Room;
+const mapStateToProps = (state) => ({
+  offers: state.offers
+});
+
+export default connect(mapStateToProps, null)(Room);

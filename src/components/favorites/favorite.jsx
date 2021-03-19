@@ -6,19 +6,19 @@ import {offersPropTypes} from "../prop-types/prop-types";
 import {rating} from "../utils/util.js";
 
 const Favorite = (props) => {
-  const {mockOffer} = props;
+  const {offer} = props;
 
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to="/offer/:id">
-          <img className="place-card__image" src={mockOffer.previewImage} width="150" height="110" alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image"/>
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{mockOffer.price}</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
@@ -30,21 +30,21 @@ const Favorite = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: rating(mockOffer)}}></span>
+            <span style={{width: rating(offer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{mockOffer.title}</a>
+          <a href="#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{mockOffer.type}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );
 };
 
 Favorite.propTypes = {
-  mockOffer: PropTypes.shape(offersPropTypes).isRequired
+  offer: PropTypes.shape(offersPropTypes).isRequired
 };
 
 export default Favorite;

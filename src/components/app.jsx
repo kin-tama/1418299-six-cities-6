@@ -7,11 +7,10 @@ import Favorites from "./favorites/favorites";
 import Room from "./room/room";
 import SignIn from "./sign-in/sign-in";
 import NotFound from "./not-found/not-found";
-import {offersPropTypes, commentsPropTypes} from "./prop-types/prop-types";
+import {commentsPropTypes} from "./prop-types/prop-types";
 
 const App = (props) => {
   const {
-    offers,
     comments,
     cities,
     newComment,
@@ -23,7 +22,7 @@ const App = (props) => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage offers={offers} cities={cities} sortTypes={sortTypes}/>
+          <MainPage cities={cities} sortTypes={sortTypes}/>
         </Route>
 
         <Route exact path="/login">
@@ -31,11 +30,11 @@ const App = (props) => {
         </Route>
 
         <Route exact path="/favorites">
-          <Favorites offers={offers} />
+          <Favorites/>
         </Route>
 
         <Route exact path="/offer/:id">
-          <Room comments={comments} newComment={newComment} cities={cities} offers={offers}/>
+          <Room comments={comments} newComment={newComment} cities={cities}/>
         </Route>
 
         <Route path="">
@@ -49,7 +48,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   comments: PropTypes.arrayOf(PropTypes.shape(commentsPropTypes)).isRequired,
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   newComment: PropTypes.shape(commentsPropTypes),

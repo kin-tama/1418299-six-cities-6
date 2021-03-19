@@ -4,17 +4,17 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {rating} from "../utils/util";
 import {offersPropTypes} from "../prop-types/prop-types";
-import {ActionCreator} from "../../source/action";
+import {ActionCreator} from "../../store/action";
 
 
 const SingleCard = (props) => {
-  const {mockOffer, changeActivePin} = props;
-  const premium = mockOffer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
+  const {offer, changeActivePin} = props;
+  const premium = offer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
 
   return (
     <article className="cities__place-card place-card"
       onMouseEnter={()=>{
-        changeActivePin(mockOffer.id);
+        changeActivePin(offer.id);
       }}
       onMouseLeave={()=>{
         changeActivePin(0);
@@ -22,13 +22,13 @@ const SingleCard = (props) => {
       {premium}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to="/offer/:id">
-          <img className="place-card__image" src={mockOffer.previewImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{mockOffer.price}</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -40,21 +40,21 @@ const SingleCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: rating(mockOffer)}}></span>
+            <span style={{width: rating(offer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/offer/:id">{mockOffer.title}</Link>
+          <Link to="/offer/:id">{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{mockOffer.type}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );
 };
 
 SingleCard.propTypes = {
-  mockOffer: PropTypes.shape(offersPropTypes).isRequired,
+  offer: PropTypes.shape(offersPropTypes).isRequired,
   setPref: PropTypes.func.isRequired,
   changeActivePin: PropTypes.func.isRequired
 };

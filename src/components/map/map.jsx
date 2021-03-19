@@ -26,13 +26,7 @@ const Map = (props) => {
     }
   };
 
-
   useEffect(() => {
-
-    if (!refMap.current.id) {
-      refMap.current.remove();
-    }
-
     refMap.current = leaflet.map(`map`, {
       center: city,
       zoom: customZoom,
@@ -45,6 +39,14 @@ const Map = (props) => {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     })
     .addTo(refMap.current);
+
+    return () => {
+      refMap.current.remove();
+    };
+  }, [activeCity]);
+
+
+  useEffect(()=>{
 
     offers.forEach((offer) => {
       const customIcon = leaflet.icon({
@@ -59,14 +61,7 @@ const Map = (props) => {
       {
         icon: customIcon
       }).addTo(refMap.current).bindPopup(offer.title);
-
-      return ()=>{
-        refMap.current.remove();
-      };
-    }, []);
-
-    refMap.current.setView(city, customZoom);
-
+    });
 
     if (activePinData.latitude) {
       leaflet.marker({

@@ -19,3 +19,23 @@ export const sortAllOffers = (unsortedOffers, offers, sortType) => {
       return unsortedOffers;
   }
 };
+
+export const adaptOffers = (offersFromServer) => {
+  const offers = [...offersFromServer];
+  offers.forEach((offer) => {
+    offer.previewImage = offer.preview_image;
+    offer.host.avatarUrl = offer.host.avatar_url;
+    offer.host.isPro = offer.host.is_pro;
+    offer.isFavorite = offer.is_favorite;
+    offer.isPremium = offer.is_premium;
+    offer.maxAdults = offer.max_adults;
+    delete offer.preview_image;
+    delete offer.host.avatar_url;
+    delete offer.host.is_pro;
+    delete offer.is_favorite;
+    delete offer.is_premium;
+    delete offer.max_adults;
+  });
+
+  return offers;
+};
