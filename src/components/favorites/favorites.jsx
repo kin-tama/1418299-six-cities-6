@@ -7,7 +7,7 @@ import Favorite from "./favorite";
 import {offersPropTypes} from "../prop-types/prop-types";
 
 const Favorites = (props) => {
-  const {offers} = props;
+  const {offers, authorizedEmail} = props;
   return (
     <div className="page">
       <header className="header">
@@ -24,7 +24,7 @@ const Favorites = (props) => {
                   <Link className="header__nav-link header__nav-link--profile" to="/favorites">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <span className="header__user-name user__name">{authorizedEmail}</span>
                   </Link>
                 </li>
               </ul>
@@ -55,20 +55,22 @@ const Favorites = (props) => {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to="/">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
+        </Link>
       </footer>
     </div>
   );
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  authorizedEmail: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers
+  offers: state.offers,
+  authorizedEmail: state.authorizedEmail
 });
 
 export default connect(mapStateToProps, null)(Favorites);

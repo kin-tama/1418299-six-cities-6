@@ -7,11 +7,26 @@ const initialState = {
   activeSortChoose: false,
   activePin: 1,
   offers: [],
-  isDataLoaded: false
+  isDataLoaded: false,
+  authorizationStatus: false,
+  authorizedEmail: ``
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case ActionType.GET_EMAIL:
+      return {
+        ...state,
+        authorizedEmail: (action.payload)
+      };
+
+
+    case ActionType.CHECK_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: (action.payload)
+      };
 
     case ActionType.LOAD_OFFERS:
       return {

@@ -1,15 +1,36 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import {Link, useHistory} from 'react-router-dom';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {logIn} from "../../store/api-action";
 
-const SignIn = () => {
+
+const SignIn = (props) => {
+
+  const {onSubmit} = props;
+
+  const loginRef = useRef();
+  const passwordRef = useRef();
+
+  const history = useHistory();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onSubmit({
+      login: loginRef.current.value,
+      password: passwordRef.current.value,
+    });
+  };
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link className="header__logo-link" to="/">
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -30,16 +51,39 @@ const SignIn = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form
+              onSubmit={(evt) => {
+                handleSubmit(evt);
+                history.push(`/`);
+              }}
+              className="login__form form"
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required=""/>
+                <input
+                  ref={loginRef}
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  required=""/>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
+                <input
+                  ref={passwordRef}
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  required=""/>
               </div>
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+              >Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
@@ -55,4 +99,19 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+SignIn.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(authData) {
+    dispatch(logIn(authData));
+  }
+});
+
+export {SignIn};
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
