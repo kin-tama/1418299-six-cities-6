@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import SingleCard from "../../single-card/single-card";
+import SingleCard from "../single-card/single-card";
 import PropTypes from "prop-types";
-import {offersPropTypes} from "../../prop-types/prop-types";
+import {offersPropTypes} from "../prop-types/prop-types";
 
 
 const OffersList = (props) => {

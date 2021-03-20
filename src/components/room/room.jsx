@@ -1,22 +1,53 @@
-import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link, useParams} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 
 import Review from "./review";
 import ReviewForm from "./reviews-form";
 import Map from "../map/map";
+import LoadingScreen from "../loading/loading";
+import OffersList from "../offers-list/offers-list";
+import PropertyInside from "./property-inside";
+import PropertyPics from "./property-pics";
 import {commentsPropTypes} from "../prop-types/prop-types";
 import {offersPropTypes} from "../prop-types/prop-types";
-import OffersList from "../favorites/offersList/offers-list";
-
+import {fetchComments, fetchSingleOffer, fetchNearbyOffers} from "../../store/api-action";
+import {rating, adaptComment} from "../utils/util";
 
 const Room = (props) => {
-  const {comments, newComment, cities, offers} = props;
-  const [commentaries, addComment] = useState(comments);
+  const {
+    comments,
+    cities,
+    authorizedEmail,
+    activePin,
+    authorizationStatus,
+    onLoadOffer,
+    isSingleOfferLoaded,
+    singleOffer,
+    offersNearby
+  } = props;
+
   const renderType = `ROOM`;
 
-  const offersNearby = offers.slice(-3);
+  const roomId = useParams().id;
+
+  useEffect(() => {
+    onLoadOffer(roomId);
+  }, [roomId]);
+
+  if (!isSingleOfferLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const getActivePinData = (pin) => {
+    if (pin > 0) {
+      return offersNearby.find((offer) => offer.id === pin).location;
+    }
+    return {};
+  };
 
   return (
     <div className="page">
@@ -31,11 +62,17 @@ const Room = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+                  {!authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/login">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                    <span className="header__user-name user__name">Sign in</span>
+                  </Link>}
+
+                  {authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__user-name user__name">{authorizedEmail}</span>
+                  </Link>}
                 </li>
               </ul>
             </nav>
@@ -47,34 +84,17 @@ const Room = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {singleOffer.images.map((image, index)=> index < 6 ? (<PropertyPics image={image}></PropertyPics>) : ``)}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
+              {singleOffer.isPremium && <div className="property__mark">
                 <span>Premium</span>
-              </div>
+              </div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {singleOffer.title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -85,91 +105,61 @@ const Room = (props) => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `80%`}}></span>
+                  <span style={{width: rating(singleOffer)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{singleOffer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  Apartment
+                  {singleOffer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {singleOffer.bedrooms} {singleOffer.bedrooms === 1 ? `Bedroom` : `Bedrooms`}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {singleOffer.maxAdults} {singleOffer.maxAdults === 1 ? `adult` : `adults`}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{singleOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
+                  {singleOffer.goods.map((good)=><PropertyInside good={good} key={good}></PropertyInside>)}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                    <img className="property__avatar user__avatar" src={singleOffer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
-                    Angelina
+                    {singleOffer.host.name}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {singleOffer.description}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ul className="reviews__list">
-                  {comments.map((mockComment) => <Review mockComment={mockComment} key={mockComment.id}></Review>)}
+                  {comments.map((comment) => <Review comment={adaptComment(comment)} key={comment.id}></Review>)}
                 </ul>
-                <ReviewForm addComment={addComment} commentaries={commentaries} newComment={newComment}> </ReviewForm>
+
+                {authorizationStatus && <ReviewForm offerId={singleOffer.id}> </ReviewForm>}
+
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map cities={cities} offers={offersNearby} renderType={renderType}></Map>
+            <Map cities={cities} activePinData={getActivePinData(activePin)} offers={offersNearby} renderType={renderType}></Map>
           </section>
         </section>
         <div className="container">
@@ -183,15 +173,35 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
+  singleOffer: PropTypes.shape(offersPropTypes).isRequired,
   comments: PropTypes.array.isRequired,
   newComment: PropTypes.shape(commentsPropTypes).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
-  cities: PropTypes.objectOf(PropTypes.array).isRequired
-
+  offersNearby: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  authorizedEmail: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired,
+  activePin: PropTypes.number.isRequired,
+  isSingleOfferLoaded: PropTypes.bool.isRequired,
+  onLoadOffer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers
+  offers: state.offers,
+  activePin: state.activePin,
+  authorizationStatus: state.authorizationStatus,
+  authorizedEmail: state.authorizedEmail,
+  isSingleOfferLoaded: state.isSingleOfferLoaded,
+  singleOffer: state.singleOffer,
+  comments: state.comments,
+  offersNearby: state.offersNearby
 });
 
-export default connect(mapStateToProps, null)(Room);
+const mapDispatchToProps = (dispatch) => ({
+  onLoadOffer(id) {
+    dispatch(fetchSingleOffer(id));
+    dispatch(fetchComments(id));
+    dispatch(fetchNearbyOffers(id));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Room);

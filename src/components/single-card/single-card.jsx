@@ -11,6 +11,8 @@ const SingleCard = (props) => {
   const {offer, changeActivePin} = props;
   const premium = offer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
 
+  const route = `/offer/${offer.id}`;
+
   return (
     <article className="cities__place-card place-card"
       onMouseEnter={()=>{
@@ -18,10 +20,13 @@ const SingleCard = (props) => {
       }}
       onMouseLeave={()=>{
         changeActivePin(0);
+      }}
+      onClick={()=>{
+        changeActivePin(0);
       }}>
       {premium}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to="/offer/:id">
+        <Link to={route}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </Link>
       </div>

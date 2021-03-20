@@ -36,6 +36,7 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "redux-devtools-extension": "2.13.8",
+    "history": "4.10.1",
     "dayjs": "^1.10.4",
     "axios": "0.21.1",
     "leaflet": "1.7.1"

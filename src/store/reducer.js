@@ -1,15 +1,19 @@
 import {ActionType} from "./action";
-import {adaptOffers} from "../components/utils/util";
+import {adaptOffers, adaptOffer} from "../components/utils/util";
 
 const initialState = {
   activeCity: `Paris`,
   activeSortType: `popular`,
   activeSortChoose: false,
-  activePin: 1,
+  activePin: 0,
   offers: [],
   isDataLoaded: false,
+  isSingleOfferLoaded: false,
   authorizationStatus: false,
-  authorizedEmail: ``
+  authorizedEmail: ``,
+  singleOffer: {},
+  comments: [],
+  offersNearby: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -27,6 +31,25 @@ export const reducer = (state = initialState, action) => {
         ...state,
         authorizationStatus: (action.payload ? true : false),
         authorizedEmail: action.payload
+      };
+
+    case ActionType.LOAD_SINGLE_OFFER:
+      return {
+        ...state,
+        singleOffer: adaptOffer(action.payload),
+        isSingleOfferLoaded: true
+      };
+
+    case ActionType.LOAD_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload
+      };
+
+    case ActionType.LOAD_NEARBY:
+      return {
+        ...state,
+        offersNearby: adaptOffers(action.payload)
       };
 
     case ActionType.LOAD_OFFERS:
@@ -60,6 +83,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         activePin: action.payload
       };
+
 
     default:
       return state;
