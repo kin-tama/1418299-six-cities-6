@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
 
@@ -14,6 +14,7 @@ import {commentsPropTypes} from "../prop-types/prop-types";
 import {offersPropTypes} from "../prop-types/prop-types";
 import {fetchComments, fetchSingleOffer, fetchNearbyOffers} from "../../store/api-action";
 import {rating, adaptComment} from "../utils/util";
+import {ActionCreator} from "../../store/action";
 
 const Room = (props) => {
   const {
@@ -25,8 +26,12 @@ const Room = (props) => {
     onLoadOffer,
     isSingleOfferLoaded,
     singleOffer,
-    offersNearby
+    offersNearby,
+    isNotFound,
+    onFail
   } = props;
+
+  const history = useHistory();
 
   const renderType = `ROOM`;
 
@@ -34,7 +39,11 @@ const Room = (props) => {
 
   useEffect(() => {
     onLoadOffer(roomId);
-  }, [roomId]);
+    if (isNotFound) {
+      history.push(`/404`);
+      onFail();
+    }
+  }, [roomId, isNotFound]);
 
   if (!isSingleOfferLoaded) {
     return (
@@ -48,6 +57,7 @@ const Room = (props) => {
     }
     return {};
   };
+
 
   return (
     <div className="page">
@@ -182,7 +192,9 @@ Room.propTypes = {
   authorizationStatus: PropTypes.bool.isRequired,
   activePin: PropTypes.number.isRequired,
   isSingleOfferLoaded: PropTypes.bool.isRequired,
-  onLoadOffer: PropTypes.func.isRequired
+  onLoadOffer: PropTypes.func.isRequired,
+  isNotFound: PropTypes.bool.isRequired,
+  onFail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -193,7 +205,8 @@ const mapStateToProps = (state) => ({
   isSingleOfferLoaded: state.isSingleOfferLoaded,
   singleOffer: state.singleOffer,
   comments: state.comments,
-  offersNearby: state.offersNearby
+  offersNearby: state.offersNearby,
+  isNotFound: state.isNotFound
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -201,6 +214,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchSingleOffer(id));
     dispatch(fetchComments(id));
     dispatch(fetchNearbyOffers(id));
+  },
+  onFail() {
+    dispatch(ActionCreator.redirect404(false));
   }
 });
 

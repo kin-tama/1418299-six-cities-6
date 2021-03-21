@@ -13,11 +13,18 @@ const initialState = {
   authorizedEmail: ``,
   singleOffer: {},
   comments: [],
-  offersNearby: []
+  offersNearby: [],
+  isNotFound: false
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case ActionType.REDIRECT_404:
+      return {
+        ...state,
+        isNotFound: (action.payload)
+      };
 
     case ActionType.GET_EMAIL:
       return {

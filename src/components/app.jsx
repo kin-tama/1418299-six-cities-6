@@ -40,6 +40,10 @@ const App = (props) => {
           <Room newComment={newComment} cities={cities}/>
         </Route>
 
+        <Route exact path="404">
+          <NotFound />
+        </Route>
+
         <Route path="">
           <NotFound />
         </Route>
@@ -51,7 +55,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.shape(commentsPropTypes)).isRequired,
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   newComment: PropTypes.shape(commentsPropTypes),
   sortTypes: PropTypes.object.isRequired

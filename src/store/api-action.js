@@ -13,6 +13,7 @@ export const fetchNearbyOffers = (id) => (dispatch, _getState, api) => (
 export const fetchSingleOffer = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`)
     .then(({data}) => dispatch(ActionCreator.loadSingleOffer(data)))
+    .catch(() => dispatch(ActionCreator.redirect404(true)))
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (

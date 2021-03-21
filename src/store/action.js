@@ -8,10 +8,16 @@ export const ActionType = {
   LOAD_COMMENTS: `data/loadComments`,
   CHECK_AUTHORIZATION: `data/authorize`,
   GET_EMAIL: `data/getEmail`,
-  LOAD_NEARBY: `offers/loadNearby`
+  LOAD_NEARBY: `offers/loadNearby`,
+  REDIRECT_404: `offers/redirect`
 };
 
 export const ActionCreator = {
+  redirect404: (status) => ({
+    type: ActionType.REDIRECT_404,
+    payload: status
+  }),
+
   changeCity: (name) => ({
     type: ActionType.CHANGE_CITY,
     payload: name
