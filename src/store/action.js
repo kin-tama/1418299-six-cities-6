@@ -4,12 +4,20 @@ export const ActionType = {
   CHANGE_SORT_TYPE: `offers/changeSortType`,
   CHANGE_ACTIVE_PIN: `offers/changeActivePin`,
   LOAD_OFFERS: `data/loadOffers`,
+  LOAD_SINGLE_OFFER: `data/loadSingleOffer`,
   LOAD_COMMENTS: `data/loadComments`,
   CHECK_AUTHORIZATION: `data/authorize`,
-  GET_EMAIL: `data/getEmail`
+  GET_EMAIL: `data/getEmail`,
+  LOAD_NEARBY: `offers/loadNearby`,
+  REDIRECT_404: `offers/redirect`
 };
 
 export const ActionCreator = {
+  redirect404: (status) => ({
+    type: ActionType.REDIRECT_404,
+    payload: status
+  }),
+
   changeCity: (name) => ({
     type: ActionType.CHANGE_CITY,
     payload: name
@@ -32,6 +40,16 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     payload: offers
+  }),
+
+  loadOffersNearby: (nearby) => ({
+    type: ActionType.LOAD_NEARBY,
+    payload: nearby
+  }),
+
+  loadSingleOffer: (offer) => ({
+    type: ActionType.LOAD_SINGLE_OFFER,
+    payload: offer
   }),
 
   getComments: (comments) => ({

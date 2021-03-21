@@ -4,13 +4,14 @@ import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 
 import {sortAllOffers} from "../utils/util";
-import OffersList from "../favorites/offersList/offers-list";
+import OffersList from "../offers-list/offers-list";
 import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
 import CitiesList from "../cities-list/cities-list";
 import SortOptions from "../sort/sort-options";
 import LoadingScreen from "../loading/loading";
 import {fetchOffersList} from "../../store/api-action";
+import {ActionCreator} from "../../store/action";
 
 const MainPage = (props) => {
   const {
@@ -23,7 +24,7 @@ const MainPage = (props) => {
     isDataLoaded,
     onLoadOffers,
     authorizationStatus,
-    authorizedEmail
+    authorizedEmail,
   } = props;
   const renderType = `MAIN`;
   const unsortedOffers = offers.slice();
@@ -33,6 +34,7 @@ const MainPage = (props) => {
     if (!isDataLoaded) {
       onLoadOffers();
     }
+
   }, [isDataLoaded]);
 
   if (!isDataLoaded) {
@@ -102,10 +104,13 @@ const MainPage = (props) => {
               <SortOptions sortTypes={sortTypes}></SortOptions>
 
               <OffersList offers={filteredOffers} renderType={renderType}/>
+
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
+
                 <Map cities={cities} offers={filteredOffers} renderType={renderType} activePinData={getActivePinData(activePin)}></Map>
+
               </section>
             </div>
           </div>
@@ -141,6 +146,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onLoadOffers() {
     dispatch(fetchOffersList());
+  },
+
+  clearLoad() {
+    dispatch(ActionCreator.clearLoadStatus());
   }
 });
 
