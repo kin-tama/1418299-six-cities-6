@@ -1,17 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {ActionCreator} from "../../store/action";
+import {changeCity} from "../../store/action";
 import {connect} from "react-redux";
+import {getActiveCity} from "../../store/data/selectors";
+
 
 const SingleCity = (props) => {
-  const {city, activeCity, changeCity} = props;
+  const {city, activeCity, onClickchangeCity} = props;
   return (
     <li className="locations__item">
-      {city === activeCity && <a onClick={(evt)=>changeCity(evt.target.textContent)} className="locations__item-link tabs__item tabs__item--active" href="#">
+      {city === activeCity && <a onClick={(evt)=>onClickchangeCity(evt.target.textContent)} className="locations__item-link tabs__item tabs__item--active" href="#">
         <span>{city}</span>
       </a>}
 
-      {city !== activeCity && <a onClick={(evt)=>changeCity(evt.target.textContent)} className="locations__item-link tabs__item" href="#">
+      {city !== activeCity && <a onClick={(evt)=>onClickchangeCity(evt.target.textContent)} className="locations__item-link tabs__item" href="#">
         <span>{city}</span>
       </a>}
     </li>
@@ -21,16 +23,16 @@ const SingleCity = (props) => {
 SingleCity.propTypes = {
   city: PropTypes.string.isRequired,
   activeCity: PropTypes.string.isRequired,
-  changeCity: PropTypes.func.isRequired
+  onClickchangeCity: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  activeCity: state.activeCity
+const mapStateToProps = (store) => ({
+  activeCity: getActiveCity(store)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
+  onClickchangeCity(city) {
+    dispatch(changeCity(city));
   },
 });
 

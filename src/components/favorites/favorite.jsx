@@ -7,11 +7,12 @@ import {rating} from "../utils/util.js";
 
 const Favorite = (props) => {
   const {offer} = props;
+  const route = `/offer/${offer.id}`;
 
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to="/offer/:id">
+        <Link to={route}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image"/>
         </Link>
       </div>
@@ -35,7 +36,7 @@ const Favorite = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to={route}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

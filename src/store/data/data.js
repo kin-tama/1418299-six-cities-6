@@ -1,45 +1,22 @@
-import {ActionType} from "./action";
-import {adaptOffers, adaptOffer} from "../components/utils/util";
+import {ActionType} from "../action";
+import {adaptOffers, adaptOffer} from "../../components/utils/util";
 
 const initialState = {
   activeCity: `Paris`,
   activeSortType: `popular`,
   activeSortChoose: false,
-  activePin: 0,
   offers: [],
+  favs: [],
   isDataLoaded: false,
+  arePrefsLoaded: false,
   isSingleOfferLoaded: false,
-  authorizationStatus: false,
-  authorizedEmail: ``,
   singleOffer: {},
   comments: [],
   offersNearby: [],
-  isNotFound: false
 };
 
-export const reducer = (state = initialState, action) => {
+export const data = (state = initialState, action) => {
   switch (action.type) {
-
-    case ActionType.REDIRECT_404:
-      return {
-        ...state,
-        isNotFound: (action.payload)
-      };
-
-    case ActionType.GET_EMAIL:
-      return {
-        ...state,
-        authorizedEmail: (action.payload)
-      };
-
-
-    case ActionType.CHECK_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: (action.payload ? true : false),
-        authorizedEmail: action.payload
-      };
-
     case ActionType.LOAD_SINGLE_OFFER:
       return {
         ...state,
@@ -66,6 +43,13 @@ export const reducer = (state = initialState, action) => {
         isDataLoaded: true
       };
 
+    case ActionType.LOAD_FAVS:
+      return {
+        ...state,
+        favs: adaptOffers(action.payload),
+        arePrefsLoaded: true
+      };
+
     case ActionType.CHANGE_CITY:
       return {
         ...state,
@@ -84,13 +68,6 @@ export const reducer = (state = initialState, action) => {
         ...state,
         activeSortChoose: newStatus
       };
-
-    case ActionType.CHANGE_ACTIVE_PIN:
-      return {
-        ...state,
-        activePin: action.payload
-      };
-
 
     default:
       return state;

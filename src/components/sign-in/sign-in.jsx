@@ -1,13 +1,15 @@
-import React, {useRef} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, {useRef} from "react";
+import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logIn} from "../../store/api-action";
+import Header from "../header/header";
 
+import {getAuthorizationStatus} from "../../store/user/selectors";
 
 const SignIn = (props) => {
 
-  const {onSubmit} = props;
+  const {onSubmit, authorizedEmail, authorizationStatus} = props;
 
   const loginRef = useRef();
   const passwordRef = useRef();
@@ -24,28 +26,8 @@ const SignIn = (props) => {
 
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Link className="header__logo-link" to="/">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </Link>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>
+
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -101,10 +83,12 @@ const SignIn = (props) => {
 
 SignIn.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  authorizedEmail: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus
+  authorizationStatus: getAuthorizationStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

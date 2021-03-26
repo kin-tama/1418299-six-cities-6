@@ -8,19 +8,17 @@ import thunk from "redux-thunk";
 import App from "./components/app";
 import {CITIES} from "./const/const";
 import {SORT_TYPES} from "./const/const";
-import NewComment from "./const/newComment";
-import {reducer} from "./store/reducer";
+import rootReducer from "./store/root-reducer";
 import {createApi} from "./api";
-import {ActionCreator} from "./store/action";
+import {checkAuthorization} from "./store/action";
 import {checkAuth} from "./store/api-action";
-// import {ActionCreator} from "./store/action"
 
 const api = createApi(
-    () => store.dispatch(ActionCreator.checkAuthorization(false))
+    () => store.dispatch(checkAuthorization(false))
 );
 
 const store = createStore(
-    reducer,
+    rootReducer,
     composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api))
     )
 );
@@ -30,7 +28,7 @@ store.dispatch(checkAuth());
 ReactDOM.render(
 
     <Provider store={store}>
-      <App cities={CITIES} newComment={NewComment} sortTypes={SORT_TYPES}/>
+      <App cities={CITIES} sortTypes={SORT_TYPES}/>
     </Provider>,
     document.querySelector(`#root`)
 );

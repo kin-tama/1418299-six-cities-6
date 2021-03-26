@@ -1,10 +1,12 @@
 import React, {useEffect, useRef} from "react";
-import {connect} from 'react-redux';
-
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import leaflet from "leaflet";
-import {offersPropTypes} from "../prop-types/prop-types";
 import "leaflet/dist/leaflet.css";
+
+import {offersPropTypes} from "../prop-types/prop-types";
+import {getActiveCity} from "../../store/data/selectors";
+
 
 const Map = (props) => {
   const {cities, offers, renderType, activeCity, activePinData} = props;
@@ -92,7 +94,7 @@ Map.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
+  activeCity: getActiveCity(state)
 });
 
 export default connect(mapStateToProps, null)(Map);

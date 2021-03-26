@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
-import {Link, useParams, useHistory} from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useParams, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
 import Review from "./review";
 import ReviewForm from "./reviews-form";
@@ -10,11 +10,23 @@ import LoadingScreen from "../loading/loading";
 import OffersList from "../offers-list/offers-list";
 import PropertyInside from "./property-inside";
 import PropertyPics from "./property-pics";
-import {commentsPropTypes} from "../prop-types/prop-types";
+import Header from "../header/header";
 import {offersPropTypes} from "../prop-types/prop-types";
-import {fetchComments, fetchSingleOffer, fetchNearbyOffers} from "../../store/api-action";
+import {fetchComments, fetchSingleOffer, fetchNearbyOffers, changeStatus} from "../../store/api-action";
 import {rating, adaptComment} from "../utils/util";
-import {ActionCreator} from "../../store/action";
+import {redirect404} from "../../store/action";
+
+import {
+  getOffers,
+  getIsSingleOfferLoaded,
+  getSingleOffer,
+  getComments,
+  getOffersNearby
+} from "../../store/data/selectors";
+
+import {getActivePin} from "../../store/map/selectors";
+import {getAuthorizationStatus, getAuthorizedEmail} from "../../store/user/selectors";
+import {getIsNotFound} from "../../store/route/selectors";
 
 const Room = (props) => {
   const {
@@ -28,14 +40,20 @@ const Room = (props) => {
     singleOffer,
     offersNearby,
     isNotFound,
-    onFail
+    onFail,
+    onChangeStatus
   } = props;
 
+
   const history = useHistory();
-
   const renderType = `ROOM`;
-
   const roomId = useParams().id;
+  const [isFavorite, changeFavorite] = useState(singleOffer.isFavorite);
+
+  const changeStatusHandle = () => {
+    onChangeStatus(singleOffer.id, singleOffer.isFavorite ? 0 : 1);
+    changeFavorite(!isFavorite);
+  };
 
   useEffect(() => {
     onLoadOffer(roomId);
@@ -58,37 +76,9 @@ const Room = (props) => {
     return {};
   };
 
-
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Link className="header__logo-link" to="/">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </Link>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  {!authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/login">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Sign in</span>
-                  </Link>}
-
-                  {authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">{authorizedEmail}</span>
-                  </Link>}
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -106,7 +96,7 @@ const Room = (props) => {
                 <h1 className="property__name">
                   {singleOffer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button onClick={changeStatusHandle} className={`property__bookmark-button button ${isFavorite && `property__bookmark-button--active`}`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -185,7 +175,6 @@ const Room = (props) => {
 Room.propTypes = {
   singleOffer: PropTypes.shape(offersPropTypes).isRequired,
   comments: PropTypes.array.isRequired,
-  newComment: PropTypes.shape(commentsPropTypes).isRequired,
   offersNearby: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
   authorizedEmail: PropTypes.string.isRequired,
@@ -195,18 +184,19 @@ Room.propTypes = {
   onLoadOffer: PropTypes.func.isRequired,
   isNotFound: PropTypes.bool.isRequired,
   onFail: PropTypes.func.isRequired,
+  onChangeStatus: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  activePin: state.activePin,
-  authorizationStatus: state.authorizationStatus,
-  authorizedEmail: state.authorizedEmail,
-  isSingleOfferLoaded: state.isSingleOfferLoaded,
-  singleOffer: state.singleOffer,
-  comments: state.comments,
-  offersNearby: state.offersNearby,
-  isNotFound: state.isNotFound
+  authorizationStatus: getAuthorizationStatus(state),
+  authorizedEmail: getAuthorizedEmail(state),
+  offers: getOffers(state),
+  isSingleOfferLoaded: getIsSingleOfferLoaded(state),
+  singleOffer: getSingleOffer(state),
+  comments: getComments(state),
+  offersNearby: getOffersNearby(state),
+  activePin: getActivePin(state),
+  isNotFound: getIsNotFound(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -215,8 +205,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchComments(id));
     dispatch(fetchNearbyOffers(id));
   },
+
   onFail() {
-    dispatch(ActionCreator.redirect404(false));
+    dispatch(redirect404(false));
+  },
+
+  onChangeStatus(id, status) {
+    dispatch(changeStatus(id, status));
   }
 });
 
