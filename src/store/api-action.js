@@ -53,6 +53,7 @@ export const postComment = (id, {rating, comment}) => (dispatch, _getState, api)
 
 export const changeStatus = (id, status) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${status}`)
+  .then(({data}) => dispatch(loadFavs(data)))
   .then(({data}) => dispatch(loadOffers(data)))
   .catch(() => {})
 );

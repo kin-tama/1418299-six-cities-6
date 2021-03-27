@@ -9,8 +9,9 @@ export const ActionType = {
   LOAD_COMMENTS: `data/loadComments`,
   CHECK_AUTHORIZATION: `data/authorize`,
   GET_EMAIL: `data/getEmail`,
+  // TRIGGER_RELOAD: `data/triggerReload`,
   LOAD_NEARBY: `offers/loadNearby`,
-  REDIRECT_404: `offers/redirect`
+  REDIRECT_404: `offers/redirect`,
 };
 
 export const redirect404 = (status) => ({

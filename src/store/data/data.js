@@ -17,6 +17,7 @@ const initialState = {
 
 export const data = (state = initialState, action) => {
   switch (action.type) {
+
     case ActionType.LOAD_SINGLE_OFFER:
       return {
         ...state,

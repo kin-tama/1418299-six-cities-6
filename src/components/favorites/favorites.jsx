@@ -7,7 +7,7 @@ import Header from "../header/header";
 import FavoritePlaces from "./favorite-places";
 
 import {offersPropTypes} from "../prop-types/prop-types";
-import {fetchFavoritesList} from "../../store/api-action";
+import {fetchFavoritesList, changeStatus} from "../../store/api-action";
 
 import {getAuthorizedEmail, getAuthorizationStatus} from "../../store/user/selectors";
 import {getArePrefsLoaded, getFavs} from "../../store/data/selectors";
@@ -19,6 +19,7 @@ const Favorites = (props) => {
     arePrefsLoaded,
     onLoadFavs,
     offersCities,
+    onChangeStatus
   } = props;
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Favorites = (props) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.keys(offersCities).map((city) => <FavoritePlaces offers={offersCities[city]} key={city} city={city}/>)}
+              {Object.keys(offersCities).map((city) => <FavoritePlaces onChangeStatus={onChangeStatus} offers={offersCities[city]} key={city} city={city}/>)}
             </ul>
           </section>
         </div>
@@ -57,12 +58,17 @@ Favorites.propTypes = {
   authorizationStatus: PropTypes.bool.isRequired,
   arePrefsLoaded: PropTypes.bool.isRequired,
   onLoadFavs: PropTypes.func.isRequired,
-  offersCities: PropTypes.object.isRequired
+  offersCities: PropTypes.object.isRequired,
+  onChangeStatus: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadFavs() {
     dispatch(fetchFavoritesList());
+  },
+
+  onChangeStatus(id, status) {
+    dispatch(changeStatus(id, status));
   }
 });
 

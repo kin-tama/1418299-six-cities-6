@@ -3,8 +3,7 @@ import Favorite from "./favorite";
 
 import PropTypes from "prop-types";
 
-
-const FavoritePlaces = ({offers, city}) => {
+const FavoritePlaces = ({offers, city, onChangeStatus}) => {
 
   return (
     <li className="favorites__locations-items">
@@ -16,7 +15,7 @@ const FavoritePlaces = ({offers, city}) => {
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) => <Favorite offer={offer} key={offer.id}></Favorite>)}
+        {offers.map((offer) => <Favorite onChangeStatus={onChangeStatus} offer={offer} key={offer.id}></Favorite>)}
       </div>
     </li>
   );
@@ -24,7 +23,8 @@ const FavoritePlaces = ({offers, city}) => {
 
 FavoritePlaces.propTypes = {
   offers: PropTypes.array.isRequired,
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  onChangeStatus: PropTypes.func.isRequired
 };
 
 export default (FavoritePlaces);
