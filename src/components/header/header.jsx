@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -41,4 +41,6 @@ Header.propTypes = {
   authorizedEmail: PropTypes.string.isRequired
 };
 
-export default Header;
+export default memo(Header, (prevProps, nextProps) => {
+  return prevProps.authorizedEmail === nextProps.authorizedEmail;
+});

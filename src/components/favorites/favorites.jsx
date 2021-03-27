@@ -18,15 +18,22 @@ const Favorites = (props) => {
     authorizationStatus,
     arePrefsLoaded,
     onLoadFavs,
-    offersCities,
-    onChangeStatus
+    favs,
+    onChangeStatus,
+    cities
   } = props;
+
+  const citiesList = Object.keys(cities);
 
   useEffect(() => {
     if (!arePrefsLoaded) {
       onLoadFavs();
     }
   }, [arePrefsLoaded]);
+
+  const filterOffers = (offersArray, cityToFilter) => {
+    return offersArray.slice().filter((offer) => offer.city.name === cityToFilter);
+  };
 
   return (
     <div className="page">
@@ -38,7 +45,7 @@ const Favorites = (props) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.keys(offersCities).map((city) => <FavoritePlaces onChangeStatus={onChangeStatus} offers={offersCities[city]} key={city} city={city}/>)}
+              {citiesList.map((city) => <FavoritePlaces onChangeStatus={onChangeStatus} offers={filterOffers(favs, city)} key={city} city={city}/>)}
             </ul>
           </section>
         </div>
@@ -53,13 +60,14 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  favs: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   authorizedEmail: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   arePrefsLoaded: PropTypes.bool.isRequired,
   onLoadFavs: PropTypes.func.isRequired,
   offersCities: PropTypes.object.isRequired,
-  onChangeStatus: PropTypes.func.isRequired
+  onChangeStatus: PropTypes.func.isRequired,
+  cities: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -69,6 +77,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   onChangeStatus(id, status) {
     dispatch(changeStatus(id, status));
+    dispatch(fetchFavoritesList());
   }
 });
 
@@ -76,14 +85,7 @@ const mapStateToProps = (state) => ({
   authorizedEmail: getAuthorizedEmail(state),
   authorizationStatus: getAuthorizationStatus(state),
   arePrefsLoaded: getArePrefsLoaded(state),
-  offersCities: {
-    Amsterdam: getFavs(state).slice().filter((offer) => offer.city.name === `Amsterdam`),
-    Paris: getFavs(state).slice().filter((offer) => offer.city.name === `Paris`),
-    Cologne: getFavs(state).slice().filter((offer) => offer.city.name === `Cologne`),
-    Brussels: getFavs(state).slice().filter((offer) => offer.city.name === `Brussels`),
-    Hamburg: getFavs(state).slice().filter((offer) => offer.city.name === `Hamburg`),
-    Dusseldorf: getFavs(state).slice().filter((offer) => offer.city.name === `Dusseldorf`)
-  }
+  favs: getFavs(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

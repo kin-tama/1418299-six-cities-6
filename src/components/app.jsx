@@ -30,7 +30,7 @@ const App = (props) => {
 
         <PrivateRoute
           exact path="/favorites"
-          render ={()=><Favorites/>}
+          render ={()=><Favorites cities={cities}/>}
         >
         </PrivateRoute>
 

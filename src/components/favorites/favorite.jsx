@@ -29,7 +29,7 @@ const Favorite = (props) => {
           </div>
           <button
             onClick={changeStatusHandle}
-            className={`place-card__bookmark-button ${offer.isFavorite && `place-card__bookmark-button--active`} button`} type="button">
+            className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
