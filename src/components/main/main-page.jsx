@@ -1,17 +1,29 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
 import {sortAllOffers} from "../utils/util";
 import OffersList from "../offers-list/offers-list";
-import {offersPropTypes} from "../prop-types/prop-types";
 import Map from "../map/map";
 import CitiesList from "../cities-list/cities-list";
 import SortOptions from "../sort/sort-options";
 import LoadingScreen from "../loading/loading";
+import Header from "../header/header";
+import MainEmpty from "./main-empty";
+
+import {offersPropTypes} from "../prop-types/prop-types";
 import {fetchOffersList} from "../../store/api-action";
-import {ActionCreator} from "../../store/action";
+
+import {
+  getOffers,
+  getActiveSortType,
+  getActiveCity,
+  getIsDataLoaded
+} from "../../store/data/selectors";
+
+import {getAuthorizedEmail, getAuthorizationStatus} from "../../store/user/selectors";
+import {getActivePin} from "../../store/map/selectors";
+
 
 const MainPage = (props) => {
   const {
@@ -19,7 +31,7 @@ const MainPage = (props) => {
     cities,
     activeCity,
     sortTypes,
-    activeSortType,
+    sortedOffers,
     activePin,
     isDataLoaded,
     onLoadOffers,
@@ -27,15 +39,12 @@ const MainPage = (props) => {
     authorizedEmail,
   } = props;
   const renderType = `MAIN`;
-  const unsortedOffers = offers.slice();
-  const sortedOffers = sortAllOffers(unsortedOffers, offers, activeSortType);
 
   useEffect(() => {
     if (!isDataLoaded) {
       onLoadOffers();
     }
-
-  }, [isDataLoaded]);
+  }, [isDataLoaded, authorizedEmail]);
 
   if (!isDataLoaded) {
     return (
@@ -59,36 +68,10 @@ const MainPage = (props) => {
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to="/">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </Link>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  {!authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/login">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Sign in</span>
-                  </Link>}
 
-                  {authorizationStatus && <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">{authorizedEmail}</span>
-                  </Link>}
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>
 
-      <main className="page__main page__main--index">
+      {filteredOffers.length < 1 ? <MainEmpty cities={cities}/> : <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -115,7 +98,7 @@ const MainPage = (props) => {
             </div>
           </div>
         </div>
-      </main>
+      </main>}
     </div>
   );
 };
@@ -130,26 +113,24 @@ MainPage.propTypes = {
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadOffers: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  authorizedEmail: PropTypes.string.isRequired
+  authorizedEmail: PropTypes.string.isRequired,
+  sortedOffers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.activeCity,
-  activeSortType: state.activeSortType,
-  activePin: state.activePin,
-  isDataLoaded: state.isDataLoaded,
-  offers: state.offers,
-  authorizationStatus: state.authorizationStatus,
-  authorizedEmail: state.authorizedEmail
+  sortedOffers: sortAllOffers(getOffers(state).slice(), getOffers(state), getActiveSortType(state)),
+  activeCity: getActiveCity(state),
+  activeSortType: getActiveSortType(state),
+  isDataLoaded: getIsDataLoaded(state),
+  offers: getOffers(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  authorizedEmail: getAuthorizedEmail(state),
+  activePin: getActivePin(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadOffers() {
     dispatch(fetchOffersList());
-  },
-
-  clearLoad() {
-    dispatch(ActionCreator.clearLoadStatus());
   }
 });
 

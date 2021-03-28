@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const LoadingScreen = () => {
   return (
-    <p style={{backgroundColor: `red`,
+    <p style={{backgroundColor: `white`,
       height: `900px`,
       fontSize: `160px`,
-      color: `white`,
+      color: `black`,
       marginLeft: `100px`
-    }} >Wait!!!!111</p>
+    }} >LOADING</p>
   );
 };
 

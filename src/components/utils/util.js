@@ -21,29 +21,49 @@ export const sortAllOffers = (unsortedOffers, offers, sortType) => {
 };
 
 export const adaptOffer = (offerFromServer) => {
-  const adaptedOffer = offerFromServer;
-  adaptedOffer.previewImage = adaptedOffer.preview_image;
-  adaptedOffer.host.avatarUrl = adaptedOffer.host.avatar_url;
-  adaptedOffer.host.isPro = adaptedOffer.host.is_pro;
-  adaptedOffer.isFavorite = adaptedOffer.is_favorite;
-  adaptedOffer.isPremium = adaptedOffer.is_premium;
-  adaptedOffer.maxAdults = adaptedOffer.max_adults;
-  delete adaptedOffer.preview_image;
-  delete adaptedOffer.host.avatar_url;
-  delete adaptedOffer.host.is_pro;
-  delete adaptedOffer.is_favorite;
-  delete adaptedOffer.is_premium;
-  delete adaptedOffer.max_adults;
+  const adaptedOffer = {
+    "bedrooms": offerFromServer.bedrooms,
+    "city": {
+      "location": {
+        "latitude": offerFromServer.city.location.latitude,
+        "longitude": offerFromServer.city.location.longitude,
+        "zoom": offerFromServer.city.location.zoom
+      },
+      "name": offerFromServer.city.name
+    },
+    "description": offerFromServer.description,
+    "goods": offerFromServer.goods,
+    "host": {
+      "avatarUrl": offerFromServer.host.avatar_url,
+      "id": offerFromServer.host.id,
+      "isPro": offerFromServer.host.is_pro,
+      "name": offerFromServer.host.name
+    },
+    "id": offerFromServer.id,
+    "images": offerFromServer.images,
+    "isFavorite": offerFromServer.is_favorite,
+    "isPremium": offerFromServer.is_premium,
+    "location": {
+      "latitude": offerFromServer.location.latitude,
+      "longitude": offerFromServer.location.longitude,
+      "zoom": offerFromServer.location.zoom
+    },
+    "maxAdults": offerFromServer.max_adults,
+    "previewImage": offerFromServer.preview_image,
+    "price": offerFromServer.price,
+    "rating": offerFromServer.rating,
+    "title": offerFromServer.title,
+    "type": offerFromServer.type
+  };
 
   return adaptedOffer;
 };
 
 export const adaptOffers = (offersFromServer) => {
-  const offers = [...offersFromServer];
-  offers.forEach((offer) => {
-    adaptOffer(offer);
+  const offers = [];
+  offersFromServer.forEach((offer) => {
+    offers.push(adaptOffer(offer));
   });
-
   return offers;
 };
 
@@ -53,7 +73,5 @@ export const adaptComment = (comment) => {
   adaptedComment.user.avatarUrl = adaptedComment.user.avatar_url;
   adaptedComment.user.isPro = adaptedComment.user.is_pro;
 
-  delete adaptedComment.user.is_pro;
-  delete adaptedComment.user.avatar_url;
   return adaptedComment;
 };
