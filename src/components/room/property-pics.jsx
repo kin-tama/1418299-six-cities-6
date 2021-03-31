@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
 
 const PropertyPics = ({image}) => {
@@ -13,4 +13,4 @@ PropertyPics.propTypes = {
   image: PropTypes.string.isRequired
 };
 
-export default PropertyPics;
+export default memo(PropertyPics);

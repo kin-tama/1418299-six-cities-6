@@ -9,7 +9,7 @@ const Favorite = (props) => {
   const {offer, onChangeStatus} = props;
 
   const changeStatusHandle = () => {
-    onChangeStatus(offer.id, offer.isFavorite ? 0 : 1);
+    onChangeStatus(offer.id, 0);
   };
 
   const route = `/offer/${offer.id}`;

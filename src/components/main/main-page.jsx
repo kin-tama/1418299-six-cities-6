@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {sortAllOffers} from "../utils/util";
 import OffersList from "../offers-list/offers-list";
 import Map from "../map/map";
-import CitiesList from "../cities-list/cities-list";
+import SingleCity from "../cities-list/single-city";
 import SortOptions from "../sort/sort-options";
 import LoadingScreen from "../loading/loading";
 import Header from "../header/header";
@@ -36,14 +36,12 @@ const MainPage = (props) => {
     isDataLoaded,
     onLoadOffers,
     authorizationStatus,
-    authorizedEmail,
+    authorizedEmail
   } = props;
   const renderType = `MAIN`;
 
   useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadOffers();
-    }
+    onLoadOffers();
   }, [isDataLoaded, authorizedEmail]);
 
   if (!isDataLoaded) {
@@ -75,7 +73,9 @@ const MainPage = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={Object.keys(cities)}> </CitiesList>
+            <ul className="locations__list tabs__list">
+              {Object.keys(cities).map((city) => <SingleCity city={city} key={city}></SingleCity>)}
+            </ul>
           </section>
         </div>
         <div className="cities">
