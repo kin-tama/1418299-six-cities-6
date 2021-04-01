@@ -48,7 +48,8 @@ const Room = (props) => {
   const history = useHistory();
   const renderType = `ROOM`;
   const roomId = useParams().id;
-  const [isFavorite, changeFavorite] = useState(singleOffer.isFavorite);
+
+  const [isFavorite, changeFavorite] = useState();
 
   const changeStatusHandle = () => {
     onChangeStatus(singleOffer.id, singleOffer.isFavorite ? 0 : 1);
@@ -61,7 +62,14 @@ const Room = (props) => {
       history.push(`/404`);
       onFail();
     }
+
   }, [roomId, isNotFound]);
+
+  useEffect(() => {
+
+    changeFavorite(singleOffer.isFavorite);
+
+  }, [singleOffer.isFavorite]);
 
   if (!isSingleOfferLoaded) {
     return (
@@ -212,6 +220,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   onChangeStatus(id, status) {
     dispatch(changeStatus(id, status));
+    dispatch(fetchSingleOffer(id));
   }
 });
 

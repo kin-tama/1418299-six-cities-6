@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CitiesList from "../cities-list/cities-list";
+import SingleCity from "../cities-list/single-city";
 
 const MainEmpty = (props) => {
 
@@ -13,7 +13,9 @@ const MainEmpty = (props) => {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <CitiesList cities={Object.keys(cities)}> </CitiesList>
+          <ul className="locations__list tabs__list">
+            {Object.keys(cities).map((city) => <SingleCity city={city} key={city}></SingleCity>)}
+          </ul>
         </section>
       </div>
       <div className="cities">

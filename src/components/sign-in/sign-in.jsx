@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -15,6 +15,12 @@ const SignIn = (props) => {
   const passwordRef = useRef();
 
   const history = useHistory();
+
+  useEffect(()=>{
+    if (authorizationStatus) {
+      history.push(`/favorites`);
+    }
+  }, [authorizationStatus]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();

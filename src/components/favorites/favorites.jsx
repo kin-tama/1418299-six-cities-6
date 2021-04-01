@@ -8,6 +8,8 @@ import FavoritePlaces from "./favorite-places";
 
 import {offersPropTypes} from "../prop-types/prop-types";
 import {fetchFavoritesList, changeStatus} from "../../store/api-action";
+import {reloadFavs} from "../../store/action";
+
 
 import {getAuthorizedEmail, getAuthorizationStatus} from "../../store/user/selectors";
 import {getArePrefsLoaded, getFavs} from "../../store/data/selectors";
@@ -20,15 +22,13 @@ const Favorites = (props) => {
     onLoadFavs,
     favs,
     onChangeStatus,
-    cities
+    cities,
   } = props;
 
   const citiesList = Object.keys(cities);
 
   useEffect(() => {
-    if (!arePrefsLoaded) {
-      onLoadFavs();
-    }
+    onLoadFavs();
   }, [arePrefsLoaded]);
 
   const filterOffers = (offersArray, cityToFilter) => {
@@ -77,6 +77,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   onChangeStatus(id, status) {
     dispatch(changeStatus(id, status));
+    dispatch(reloadFavs());
     dispatch(fetchFavoritesList());
   }
 });

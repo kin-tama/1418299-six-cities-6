@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
 
 const PropertyInside = ({good}) => {
@@ -13,4 +13,4 @@ PropertyInside.propTypes = {
   good: PropTypes.string.isRequired
 };
 
-export default PropertyInside;
+export default memo(PropertyInside);

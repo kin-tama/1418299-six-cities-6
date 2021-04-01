@@ -44,11 +44,23 @@ export const data = (state = initialState, action) => {
         isDataLoaded: true
       };
 
+    case ActionType.RELOAD_OFFERS:
+      return {
+        ...state,
+        isDataLoaded: false
+      };
+
     case ActionType.LOAD_FAVS:
       return {
         ...state,
         favs: adaptOffers(action.payload),
         arePrefsLoaded: true
+      };
+
+    case ActionType.RELOAD_FAVS:
+      return {
+        ...state,
+        arePrefsLoaded: false
       };
 
     case ActionType.CHANGE_CITY:

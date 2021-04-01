@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
 import {rating} from "../utils/util";
 import dayjs from "dayjs";
@@ -39,4 +39,6 @@ Review.propTypes = {
   comment: PropTypes.object.isRequired
 };
 
-export default Review;
+export default memo(Review, (prevProps, nextProps) => {
+  return prevProps.comment.comment === nextProps.comment.comment;
+});
