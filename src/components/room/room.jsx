@@ -89,8 +89,6 @@ const Room = (props) => {
     return {};
   };
 
-  console.log(singleOffer.description);
-
   return (
     <div className="page">
       <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>

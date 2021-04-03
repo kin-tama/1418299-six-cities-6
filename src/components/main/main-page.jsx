@@ -43,7 +43,7 @@ const MainPage = (props) => {
 
   useEffect(() => {
     onLoadOffers();
-    onOpenCheckAuthorisation()
+    onOpenCheckAuthorisation();
   }, [isDataLoaded, authorizedEmail]);
 
   if (!isDataLoaded) {
@@ -114,6 +114,7 @@ MainPage.propTypes = {
   activePin: PropTypes.number.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadOffers: PropTypes.func.isRequired,
+  onOpenCheckAuthorisation: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   authorizedEmail: PropTypes.string.isRequired,
   sortedOffers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
