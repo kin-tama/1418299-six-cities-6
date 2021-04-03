@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {rating} from "../utils/util";
 import {offersPropTypes} from "../prop-types/prop-types";
 import {changeActivePin} from "../../store/action";
@@ -20,12 +20,16 @@ const SingleCard = (props) => {
   const premium = offer.isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``;
 
   const route = `/offer/${offer.id}`;
-
+  const history = useHistory();
   const [isFavorite, changeFavorite] = useState(offer.isFavorite);
 
   const changeStatusHandle = () => {
-    onChangeStatus(offer.id, offer.isFavorite ? 0 : 1);
-    changeFavorite(!isFavorite);
+    if (!authorizationStatus) {
+      history.push(`/login`);
+    } else if (authorizationStatus) {
+      onChangeStatus(offer.id, offer.isFavorite ? 0 : 1);
+      changeFavorite(!isFavorite);
+    }
   };
 
   return (
@@ -55,7 +59,6 @@ const SingleCard = (props) => {
             onClick={changeStatusHandle}
             className={`place-card__bookmark-button button ${isFavorite && `place-card__bookmark-button--active`}`}
             type="button"
-            disabled={!authorizationStatus}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

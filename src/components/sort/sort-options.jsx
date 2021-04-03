@@ -11,7 +11,7 @@ const SortOptions = (props) => {
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
       <span onClick={onChangeSortStatus} className="places__sorting-type" tabIndex="0">
         {sortTypes[activeSortType]}
         <svg className="places__sorting-arrow" width="7" height="4">

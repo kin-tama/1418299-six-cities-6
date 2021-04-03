@@ -52,12 +52,17 @@ const Room = (props) => {
   const [isFavorite, changeFavorite] = useState();
 
   const changeStatusHandle = () => {
-    onChangeStatus(singleOffer.id, singleOffer.isFavorite ? 0 : 1);
-    changeFavorite(!isFavorite);
+    if (!authorizationStatus) {
+      history.push(`/login`);
+    } else if (authorizationStatus) {
+      onChangeStatus(singleOffer.id, singleOffer.isFavorite ? 0 : 1);
+      changeFavorite(!isFavorite);
+    }
   };
 
   useEffect(() => {
     onLoadOffer(roomId);
+    window.scrollTo(0, 0);
     if (isNotFound) {
       history.push(`/404`);
       onFail();
@@ -84,6 +89,8 @@ const Room = (props) => {
     return {};
   };
 
+  console.log(singleOffer.description);
+
   return (
     <div className="page">
       <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>
@@ -92,7 +99,7 @@ const Room = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {singleOffer.images.map((image, index)=> index < 6 ? (<PropertyPics image={image}></PropertyPics>) : ``)}
+              {singleOffer.images.map((image, index)=> index < 6 ? (<PropertyPics image={image} key={image}></PropertyPics>) : ``)}
             </div>
           </div>
           <div className="property__container container">
@@ -181,7 +188,6 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
-  singleOffer: PropTypes.shape(offersPropTypes).isRequired,
   comments: PropTypes.array.isRequired,
   offersNearby: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
   cities: PropTypes.objectOf(PropTypes.array).isRequired,
@@ -192,7 +198,8 @@ Room.propTypes = {
   onLoadOffer: PropTypes.func.isRequired,
   isNotFound: PropTypes.bool.isRequired,
   onFail: PropTypes.func.isRequired,
-  onChangeStatus: PropTypes.func.isRequired
+  onChangeStatus: PropTypes.func.isRequired,
+  singleOffer: PropTypes.shape(offersPropTypes).isRequired
 };
 
 const mapStateToProps = (state) => ({

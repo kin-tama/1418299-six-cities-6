@@ -24,7 +24,6 @@ const store = createStore(
 );
 
 store.dispatch(checkAuth());
-
 ReactDOM.render(
 
     <Provider store={store}>

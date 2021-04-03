@@ -60,14 +60,14 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favs: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  favs: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)),
   authorizedEmail: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   arePrefsLoaded: PropTypes.bool.isRequired,
   onLoadFavs: PropTypes.func.isRequired,
-  offersCities: PropTypes.object.isRequired,
+  offersCities: PropTypes.object,
   onChangeStatus: PropTypes.func.isRequired,
-  cities: PropTypes.object.isRequired
+  cities: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -79,7 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeStatus(id, status));
     dispatch(reloadFavs());
     dispatch(fetchFavoritesList());
-  }
+  },
 });
 
 const mapStateToProps = (state) => ({

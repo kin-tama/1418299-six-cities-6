@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {logIn} from "../../store/api-action";
+import {logIn, checkAuth} from "../../store/api-action";
 import Header from "../header/header";
 
 import {getAuthorizationStatus} from "../../store/user/selectors";
@@ -89,7 +89,7 @@ const SignIn = (props) => {
 
 SignIn.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  authorizedEmail: PropTypes.string.isRequired,
+  authorizedEmail: PropTypes.string,
   authorizationStatus: PropTypes.bool.isRequired
 };
 
@@ -100,6 +100,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(authData) {
     dispatch(logIn(authData));
+    dispatch(checkAuth());
   }
 });
 

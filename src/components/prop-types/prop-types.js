@@ -1,49 +1,49 @@
 import PropTypes from "prop-types";
 
 export const offersPropTypes = {
-  "bedrooms": PropTypes.number,
-  "city": PropTypes.shape({
-    "location": PropTypes.shape({
-      "latitude": PropTypes.number.isRequired,
-      "longitude": PropTypes.number.isRequired,
-      "zoom": PropTypes.number.isRequired
+  bedrooms: PropTypes.number,
+  city: PropTypes.shape({
+    location: PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number
     }),
-    "name": PropTypes.string.isRequired
+    name: PropTypes.string
   }),
-  "description": PropTypes.string.isRequired,
-  "goods": PropTypes.array.isRequired,
-  "host": PropTypes.shape({
-    "avatarUrl": PropTypes.string.isRequired,
-    "id": PropTypes.number.isRequired,
-    "isPro": PropTypes.bool.isRequired,
-    "name": PropTypes.string.isRequired
+  description: PropTypes.string,
+  goods: PropTypes.array,
+  host: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    id: PropTypes.number,
+    isPro: PropTypes.bool,
+    name: PropTypes.string
   }),
-  "id": PropTypes.number.isRequired,
-  "images": PropTypes.array.isRequired,
-  "isFavorite": PropTypes.bool.isRequired,
-  "isPremium": PropTypes.bool.isRequired,
-  "location": PropTypes.shape({
-    "latitude": PropTypes.number.isRequired,
-    "longitude": PropTypes.number.isRequired,
-    "zoom": PropTypes.number.isRequired
+  id: PropTypes.number,
+  images: PropTypes.array,
+  isFavorite: PropTypes.bool,
+  isPremium: PropTypes.bool,
+  location: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+    zoom: PropTypes.number
   }),
-  "maxAdults": PropTypes.number.isRequired,
-  "previewImage": PropTypes.string.isRequired,
-  "price": PropTypes.number.isRequired,
-  "rating": PropTypes.number.isRequired,
-  "title": PropTypes.string.isRequired,
-  "type": PropTypes.string.isRequired
+  maxAdults: PropTypes.number,
+  previewImage: PropTypes.string,
+  price: PropTypes.number,
+  rating: PropTypes.number,
+  title: PropTypes.string,
+  type: PropTypes.string
 };
 
 export const commentsPropTypes = {
-  comment: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string,
+  date: PropTypes.string,
+  id: PropTypes.number,
+  rating: PropTypes.number,
   user: PropTypes.shape({
-    avatarUrl: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    isPro: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired
+    avatarUrl: PropTypes.string,
+    id: PropTypes.number,
+    isPro: PropTypes.bool,
+    name: PropTypes.string
   })
 };

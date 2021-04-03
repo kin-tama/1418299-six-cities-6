@@ -23,7 +23,7 @@ const Map = (props) => {
     },
 
     MAIN: {
-      height: `700px`,
+      height: `100%`,
       width: `512px`
     }
   };
