@@ -38,7 +38,7 @@ const Header = ({authorizationStatus, authorizedEmail}) => {
 
 Header.propTypes = {
   authorizationStatus: PropTypes.bool.isRequired,
-  authorizedEmail: PropTypes.string.isRequired
+  authorizedEmail: PropTypes.string
 };
 
 export default memo(Header, (prevProps, nextProps) => {

@@ -2,7 +2,7 @@ import {ActionType} from "../action";
 
 const initialState = {
   authorizationStatus: false,
-  authorizedEmail: ``,
+  authorizedEmail: `none`,
 };
 
 export const user = (state = initialState, action) => {
@@ -18,7 +18,7 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: (action.payload ? true : false),
-        authorizedEmail: action.payload
+        authorizedEmail: (action.payload ? action.payload : `none`)
       };
 
     default:

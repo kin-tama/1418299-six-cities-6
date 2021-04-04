@@ -12,7 +12,7 @@ import Header from "../header/header";
 import MainEmpty from "./main-empty";
 
 import {offersPropTypes} from "../prop-types/prop-types";
-import {fetchOffersList} from "../../store/api-action";
+import {fetchOffersList, checkAuth} from "../../store/api-action";
 
 import {
   getOffers,
@@ -35,6 +35,7 @@ const MainPage = (props) => {
     activePin,
     isDataLoaded,
     onLoadOffers,
+    onOpenCheckAuthorisation,
     authorizationStatus,
     authorizedEmail
   } = props;
@@ -42,6 +43,7 @@ const MainPage = (props) => {
 
   useEffect(() => {
     onLoadOffers();
+    onOpenCheckAuthorisation();
   }, [isDataLoaded, authorizedEmail]);
 
   if (!isDataLoaded) {
@@ -112,6 +114,7 @@ MainPage.propTypes = {
   activePin: PropTypes.number.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadOffers: PropTypes.func.isRequired,
+  onOpenCheckAuthorisation: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   authorizedEmail: PropTypes.string.isRequired,
   sortedOffers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired
@@ -131,6 +134,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onLoadOffers() {
     dispatch(fetchOffersList());
+  },
+
+  onOpenCheckAuthorisation() {
+    dispatch(checkAuth());
   }
 });
 
