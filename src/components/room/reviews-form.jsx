@@ -41,6 +41,7 @@ const ReviewForm = (props) => {
     });
 
     commentRef.current.value = ``;
+    setRating(0);
   };
 
   return (

@@ -6,8 +6,8 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 import App from "./components/app";
-import {CITIES} from "./const/const";
-import {SORT_TYPES} from "./const/const";
+import {Cities} from "./const/const";
+import {SortTypes} from "./const/const";
 import rootReducer from "./store/root-reducer";
 import {createApi} from "./api";
 import {checkAuthorization} from "./store/action";
@@ -27,7 +27,7 @@ store.dispatch(checkAuth());
 ReactDOM.render(
 
     <Provider store={store}>
-      <App cities={CITIES} sortTypes={SORT_TYPES}/>
+      <App cities={Cities} sortTypes={SortTypes}/>
     </Provider>,
     document.querySelector(`#root`)
 );

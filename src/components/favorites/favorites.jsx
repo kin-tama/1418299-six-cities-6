@@ -22,35 +22,48 @@ const Favorites = (props) => {
     onLoadFavs,
     favs,
     onChangeStatus,
-    cities,
   } = props;
-
-  const citiesList = Object.keys(cities);
 
   useEffect(() => {
     onLoadFavs();
   }, [arePrefsLoaded]);
+
+  const citiesList = [];
+  favs.forEach((element) => !citiesList.includes(element.city.name) ? citiesList.push(element.city.name) : ``);
 
   const filterOffers = (offersArray, cityToFilter) => {
     return offersArray.slice().filter((offer) => offer.city.name === cityToFilter);
   };
 
   return (
-    <div className="page">
+    <div className={`page ${favs.length === 0 && `page--favorites-empty`}`}>
 
       <Header authorizationStatus={authorizationStatus} authorizedEmail={authorizedEmail}/>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {citiesList.map((city) => <FavoritePlaces onChangeStatus={onChangeStatus} offers={filterOffers(favs, city)} key={city} city={city}/>)}
-            </ul>
-          </section>
-        </div>
-      </main>
-      <footer className="footer container">
+      {favs.length > 0
+        ? <main className="page__main page__main--favorites">
+          <div className="page__favorites-container container">
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <ul className="favorites__list">
+                {citiesList.map((city) => <FavoritePlaces onChangeStatus={onChangeStatus} offers={filterOffers(favs, city)} key={city} city={city}/>)}
+              </ul>
+            </section>
+          </div>
+        </main>
+        : <main className="page__main page__main--favorites page__main--favorites-empty">
+          <div className="page__favorites-container container">
+            <section className="favorites favorites--empty">
+              <h1 className="visually-hidden">Favorites (empty)</h1>
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+              </div>
+            </section>
+          </div>
+        </main>
+      }
+      <footer className={`footer ${favs.length > 0 && `container`}`}>
         <Link className="footer__logo-link" to="/">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>
@@ -65,10 +78,15 @@ Favorites.propTypes = {
   authorizationStatus: PropTypes.bool.isRequired,
   arePrefsLoaded: PropTypes.bool.isRequired,
   onLoadFavs: PropTypes.func.isRequired,
-  offersCities: PropTypes.object,
-  onChangeStatus: PropTypes.func.isRequired,
-  cities: PropTypes.object.isRequired,
+  onChangeStatus: PropTypes.func.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  authorizedEmail: getAuthorizedEmail(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  arePrefsLoaded: getArePrefsLoaded(state),
+  favs: getFavs(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadFavs() {
@@ -80,13 +98,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(reloadFavs());
     dispatch(fetchFavoritesList());
   },
-});
-
-const mapStateToProps = (state) => ({
-  authorizedEmail: getAuthorizedEmail(state),
-  authorizationStatus: getAuthorizationStatus(state),
-  arePrefsLoaded: getArePrefsLoaded(state),
-  favs: getFavs(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

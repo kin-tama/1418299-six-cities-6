@@ -1,4 +1,4 @@
-export const CITIES = {
+export const Cities = {
   Amsterdam: [52.38333, 4.9],
   Paris: [48.86471, 2.3],
   Cologne: [50.93517, 6.9],
@@ -7,9 +7,16 @@ export const CITIES = {
   Dusseldorf: [51.233334, 6.78]
 };
 
-export const SORT_TYPES = {
-  popular: `Popular`,
-  priceHighToLow: `Price: high to low`,
-  priceLowToHigh: `Price: low to high`,
-  ratingHighToLow: `Top rated first`
+export const SortTypes = {
+  POPULAR: `Popular`,
+  PRICE_HIGH_TO_LOW: `Price: high to low`,
+  PRICE_LOW_TO_HIGH: `Price: low to high`,
+  RATING_HIGH_TO_LOW: `Top rated first`
+};
+
+export const SortTypesDuplicate = {
+  POPULAR: `POPULAR`,
+  PRICE_HIGH_TO_LOW: `PRICE_HIGH_TO_LOW`,
+  PRICE_LOW_TO_HIGH: `PRICE_LOW_TO_HIGH`,
+  RATING_HIGH_TO_LOW: `RATING_HIGH_TO_LOW`
 };

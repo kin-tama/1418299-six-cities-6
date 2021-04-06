@@ -11,7 +11,7 @@ import OffersList from "../offers-list/offers-list";
 import PropertyInside from "./property-inside";
 import PropertyPics from "./property-pics";
 import Header from "../header/header";
-import {offersPropTypes} from "../prop-types/prop-types";
+import {offersPropTypes, commentsPropTypes} from "../prop-types/prop-types";
 import {fetchComments, fetchSingleOffer, fetchNearbyOffers, changeStatus} from "../../store/api-action";
 import {rating, adaptComment} from "../utils/util";
 import {redirect404} from "../../store/action";
@@ -21,10 +21,9 @@ import {
   getIsSingleOfferLoaded,
   getSingleOffer,
   getComments,
-  getOffersNearby
+  getOffersNearby,
 } from "../../store/data/selectors";
 
-import {getActivePin} from "../../store/map/selectors";
 import {getAuthorizationStatus, getAuthorizedEmail} from "../../store/user/selectors";
 import {getIsNotFound} from "../../store/route/selectors";
 
@@ -33,7 +32,6 @@ const Room = (props) => {
     comments,
     cities,
     authorizedEmail,
-    activePin,
     authorizationStatus,
     onLoadOffer,
     isSingleOfferLoaded,
@@ -82,12 +80,7 @@ const Room = (props) => {
     );
   }
 
-  const getActivePinData = (pin) => {
-    if (pin > 0) {
-      return offersNearby.find((offer) => offer.id === pin).location;
-    }
-    return {};
-  };
+  let offersForMap = [singleOffer, ...offersNearby.slice(0, 3)];
 
   return (
     <div className="page">
@@ -172,7 +165,7 @@ const Room = (props) => {
             </div>
           </div>
           <section className="property__map map">
-            <Map cities={cities} activePinData={getActivePinData(activePin)} offers={offersNearby} renderType={renderType}></Map>
+            <Map cities={cities} activePinData={singleOffer.location} offers={offersForMap} renderType={renderType} offersNearby={offersNearby}></Map>
           </section>
         </section>
         <div className="container">
@@ -186,12 +179,11 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape(commentsPropTypes)).isRequired,
   offersNearby: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  cities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   authorizedEmail: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  activePin: PropTypes.number.isRequired,
   isSingleOfferLoaded: PropTypes.bool.isRequired,
   onLoadOffer: PropTypes.func.isRequired,
   isNotFound: PropTypes.bool.isRequired,
@@ -208,8 +200,7 @@ const mapStateToProps = (state) => ({
   singleOffer: getSingleOffer(state),
   comments: getComments(state),
   offersNearby: getOffersNearby(state),
-  activePin: getActivePin(state),
-  isNotFound: getIsNotFound(state)
+  isNotFound: getIsNotFound(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

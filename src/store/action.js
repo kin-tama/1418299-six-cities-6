@@ -57,7 +57,6 @@ export const reloadFavs = () => ({
   type: ActionType.RELOAD_FAVS
 });
 
-
 export const loadOffersNearby = (nearby) => ({
   type: ActionType.LOAD_NEARBY,
   payload: nearby

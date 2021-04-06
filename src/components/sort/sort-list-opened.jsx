@@ -13,7 +13,7 @@ const SortListOpened = (props) => {
 };
 
 SortListOpened.propTypes = {
-  sortTypes: PropTypes.object.isRequired,
+  sortTypes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 export default SortListOpened;

@@ -1,23 +1,34 @@
 
+import dayjs from "dayjs";
+import {SortTypesDuplicate} from "../../const/const";
+
 export const rating = (comment) => `${Math.round(comment.rating / 5 * 100)}%`;
 
 export const sortAllOffers = (unsortedOffers, offers, sortType) => {
   switch (sortType) {
-    case `priceHighToLow`:
+    case SortTypesDuplicate.PRICE_HIGH_TO_LOW:
       return unsortedOffers.sort((offerA, offerB) => offerB.price - offerA.price);
 
-    case `priceLowToHigh`:
+    case SortTypesDuplicate.PRICE_LOW_TO_HIGH:
       return unsortedOffers.sort((offerA, offerB) => offerA.price - offerB.price);
 
-    case `ratingHighToLow`:
+    case SortTypesDuplicate.RATING_HIGH_TO_LOW:
       return unsortedOffers.sort((offerA, offerB) => offerB.rating - offerA.rating);
 
-    case `popular`:
+    case SortTypesDuplicate.POPULAR:
       return offers;
 
     default:
       return unsortedOffers;
   }
+};
+
+export const sortCommentsByDate = (comments) => {
+  let sortedComments = [...comments].sort((commentA, commentB) => dayjs(commentB.date) - dayjs(commentA.date));
+  if (sortedComments.length > 10) {
+    sortedComments = sortedComments.slice(0, 10);
+  }
+  return sortedComments;
 };
 
 export const adaptOffer = (offerFromServer) => {

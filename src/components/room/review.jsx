@@ -1,6 +1,7 @@
 import React, {memo} from "react";
 import PropTypes from "prop-types";
 import {rating} from "../utils/util";
+import {commentsPropTypes} from "../prop-types/prop-types";
 import dayjs from "dayjs";
 
 
@@ -36,7 +37,7 @@ const Review = (props) => {
 };
 
 Review.propTypes = {
-  comment: PropTypes.object.isRequired
+  comment: PropTypes.PropTypes.shape(commentsPropTypes).isRequired
 };
 
 export default memo(Review, (prevProps, nextProps) => {

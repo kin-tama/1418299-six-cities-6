@@ -30,7 +30,7 @@ const App = (props) => {
 
         <PrivateRoute
           exact path="/favorites"
-          render ={()=><Favorites cities={cities}/>}
+          render ={()=><Favorites/>}
         >
         </PrivateRoute>
 
@@ -53,8 +53,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
-  sortTypes: PropTypes.object.isRequired
+  cities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  sortTypes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 export default App;

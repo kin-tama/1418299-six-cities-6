@@ -107,10 +107,10 @@ const MainPage = (props) => {
 
 MainPage.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  cities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   activeCity: PropTypes.string.isRequired,
   activeSortType: PropTypes.string.isRequired,
-  sortTypes: PropTypes.object.isRequired,
+  sortTypes: PropTypes.objectOf(PropTypes.string).isRequired,
   activePin: PropTypes.number.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadOffers: PropTypes.func.isRequired,

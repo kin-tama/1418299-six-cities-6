@@ -11,7 +11,7 @@ export const offersPropTypes = {
     name: PropTypes.string
   }),
   description: PropTypes.string,
-  goods: PropTypes.array,
+  goods: PropTypes.arrayOf(PropTypes.string),
   host: PropTypes.shape({
     avatarUrl: PropTypes.string,
     id: PropTypes.number,
@@ -19,7 +19,7 @@ export const offersPropTypes = {
     name: PropTypes.string
   }),
   id: PropTypes.number,
-  images: PropTypes.array,
+  images: PropTypes.arrayOf(PropTypes.string),
   isFavorite: PropTypes.bool,
   isPremium: PropTypes.bool,
   location: PropTypes.shape({

@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
 SortListItem.propTypes = {
   typeKey: PropTypes.string.isRequired,
   activeSortType: PropTypes.string.isRequired,
-  sortTypes: PropTypes.object.isRequired,
+  sortTypes: PropTypes.objectOf(PropTypes.string).isRequired,
   onChangeSortType: PropTypes.func.isRequired,
   onChangeSortStatus: PropTypes.func.isRequired
 };

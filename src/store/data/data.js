@@ -1,9 +1,9 @@
 import {ActionType} from "../action";
-import {adaptOffers, adaptOffer} from "../../components/utils/util";
+import {adaptOffers, adaptOffer, sortCommentsByDate} from "../../components/utils/util";
 
 const initialState = {
   activeCity: `Paris`,
-  activeSortType: `popular`,
+  activeSortType: `POPULAR`,
   activeSortChoose: false,
   offers: [],
   favs: [],
@@ -22,19 +22,21 @@ export const data = (state = initialState, action) => {
       return {
         ...state,
         singleOffer: adaptOffer(action.payload),
-        isSingleOfferLoaded: true
+        isSingleOfferLoaded: true,
+        activeCity: adaptOffer(action.payload).city.name
       };
 
     case ActionType.LOAD_COMMENTS:
       return {
         ...state,
-        comments: action.payload
+        comments: sortCommentsByDate(action.payload)
       };
 
     case ActionType.LOAD_NEARBY:
       return {
         ...state,
-        offersNearby: adaptOffers(action.payload)
+        offersNearby: adaptOffers(action.payload),
+        areOffersNearbyLoaded: Math.random()
       };
 
     case ActionType.LOAD_OFFERS:

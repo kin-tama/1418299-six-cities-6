@@ -34,7 +34,7 @@ const MainEmpty = (props) => {
 };
 
 MainEmpty.propTypes = {
-  cities: PropTypes.objectOf(PropTypes.array).isRequired
+  cities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)).isRequired
 };
 
 export default MainEmpty;

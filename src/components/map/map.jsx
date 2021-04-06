@@ -9,10 +9,14 @@ import {getActiveCity} from "../../store/data/selectors";
 
 
 const Map = (props) => {
-  const {cities, offers, renderType, activeCity, activePinData} = props;
+  const {cities, offers, renderType, activeCity, activePinData, offersNearby} = props;
   const city = cities[activeCity];
   const refMap = useRef();
-  const customZoom = 11;
+
+  const CustomZoom = {
+    "MAIN": 11,
+    "ROOM": 12
+  };
 
   const SIZES = {
     ROOM: {
@@ -31,7 +35,7 @@ const Map = (props) => {
   useEffect(() => {
     refMap.current = leaflet.map(`map`, {
       center: city,
-      zoom: customZoom,
+      zoom: CustomZoom[renderType],
       zoomControl: false,
       marker: true
     });
@@ -45,7 +49,7 @@ const Map = (props) => {
     return () => {
       refMap.current.remove();
     };
-  }, [activeCity]);
+  }, [activeCity, offersNearby]);
 
 
   useEffect(()=>{
@@ -86,11 +90,12 @@ const Map = (props) => {
 };
 
 Map.propTypes = {
-  cities: PropTypes.objectOf(PropTypes.array).isRequired,
+  cities: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)).isRequired,
+  offersNearby: PropTypes.arrayOf(PropTypes.shape(offersPropTypes)),
   renderType: PropTypes.string.isRequired,
   activeCity: PropTypes.string.isRequired,
-  activePinData: PropTypes.object.isRequired
+  activePinData: PropTypes.shape(offersPropTypes.city.location).isRequired
 };
 
 const mapStateToProps = (state) => ({
